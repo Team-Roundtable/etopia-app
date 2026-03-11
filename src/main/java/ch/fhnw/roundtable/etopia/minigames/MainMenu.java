@@ -21,7 +21,7 @@ public class MainMenu implements Menu {
     @Override
     public void update(float delta, Input input) {
 
-        if (input.up()) {
+        if (input.isSelectPressed()) {
             x++;
         }
 
@@ -45,6 +45,7 @@ public class MainMenu implements Menu {
         renderer.batch.begin();
         renderer.font.setColor(Color.WHITE);
         renderer.font.draw(renderer.batch, "Hello World!", x, 300);
+        renderer.font.draw(renderer.batch, "Press keys 0-9 anytime to load level", 200, 800);
 
         renderer.batch.draw(dropTexture, 200, 400, 100, 100);
         renderer.batch.end();
