@@ -14,7 +14,7 @@ import java.util.Random;
 public class BucketGame implements MiniGame {
     private List<Drop> drops;
     private Bucket bucket;
-    private int score = 0;
+    private int score;
     private final int WIN_SCORE = 10;
 
     private float dropSpawnTimer = 0f;
@@ -34,11 +34,12 @@ public class BucketGame implements MiniGame {
     @Override
     public void create() {
         drops = new ArrayList<>();
-        dropTexture = new Texture("drop.png");
-        bucketTexture = new Texture("bucket.png");
-        backgroundTexture = new Texture("background.png");
+        dropTexture = new Texture("bucketgame/drop.png");
+        bucketTexture = new Texture("bucketgame/bucket.png");
+        backgroundTexture = new Texture("bucketgame/background.png");
 
         bucket = new Bucket(ETopia.WORLD_WIDTH / 2f, 100, bucketTexture);
+        score = 0;
     }
 
     /// Is run before every frame. Updates drop and bucket positions, handles player input. Delta is time since last frame

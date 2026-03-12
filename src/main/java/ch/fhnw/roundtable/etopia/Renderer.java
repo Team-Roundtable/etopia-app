@@ -22,6 +22,7 @@ public class Renderer {
     public void begin() {
         viewport.apply(true);
         batch.setProjectionMatrix(viewport.getCamera().combined);
+        shape.setProjectionMatrix(viewport.getCamera().combined);
         font.setUseIntegerPositions(false);
     }
 
