@@ -27,7 +27,6 @@ public class Bucket {
         // TODO replace with our input system once implemented
         if (input.isLeftPressed()) x -= SPEED * deltaTime;
         if (input.isRightPressed()) x += SPEED * deltaTime;
-
         // Clamp to screen boundary
         if (x < MIN_X) x = MIN_X;
         if (x > MAX_X) x = MAX_X;

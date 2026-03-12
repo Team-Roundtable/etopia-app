@@ -1,7 +1,7 @@
 package ch.fhnw.roundtable.etopia;
 
 import ch.fhnw.roundtable.etopia.input.InputImpl;
-import ch.fhnw.roundtable.etopia.minigames.MainMenu;
+import ch.fhnw.roundtable.etopia.minigames.map.MainMenu;
 import ch.fhnw.roundtable.etopia.minigames.bucket.BucketGame;
 import ch.fhnw.roundtable.etopia.view.Menu;
 import ch.fhnw.roundtable.etopia.view.MiniGame;
@@ -67,6 +67,8 @@ public class ETopia implements ApplicationListener {
             for (int i = 0; i < views.size(); i++) {
                 if (menu.changeView().isInstance(views.get(i))) {
                     nextView = i;
+                    menu.clearChangeViewRequest();
+                    break;
                 }
             }
         }
