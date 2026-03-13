@@ -22,12 +22,18 @@ public class SelectableTechnology implements Navigatable, View {
 
     private final Class<? extends View> correspondingView;
     private final Texture texture;
+    private final Texture highlightedTexture;
+    private final GameInfoPanel infoPanel;
 
-    public SelectableTechnology(float x, float y, Class<? extends View> correspondingView, Texture texture) {
+    public SelectableTechnology(float x, float y, Class<? extends View> correspondingView,
+                                Texture texture,
+                                Texture highlightedTexture, GameInfoPanel infoPanel) {
         this.x = x;
         this.y = y;
         this.correspondingView = correspondingView;
         this.texture = texture;
+        this.highlightedTexture = highlightedTexture;
+        this.infoPanel = infoPanel;
     }
 
     @Override
@@ -65,7 +71,8 @@ public class SelectableTechnology implements Navigatable, View {
         float height = texture.getHeight() * scale;
 
         renderer.batch.begin();
-        renderer.batch.draw(texture, x - width/2, y - height/2, width, height);
+        var tex = isSelected() ? highlightedTexture : texture;
+        renderer.batch.draw(tex, x - width/2, y - height/2, width, height);
         renderer.batch.end();
 
         if (correspondingView == null) {
@@ -76,6 +83,10 @@ public class SelectableTechnology implements Navigatable, View {
             var lineWidth = 8f;
             renderer.shape.rectLine(new Vector2(x - offset, y - offset), new Vector2(x + offset, y + offset), lineWidth);
             renderer.shape.end();
+        }
+
+        if (infoPanel != null && isSelected()) {
+            infoPanel.render(renderer);
         }
     }
 

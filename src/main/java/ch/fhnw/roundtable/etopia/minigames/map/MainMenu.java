@@ -4,6 +4,7 @@ import ch.fhnw.roundtable.etopia.*;
 import ch.fhnw.roundtable.etopia.helpers.Navigatable;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.minigames.bucket.BucketGame;
+import ch.fhnw.roundtable.etopia.minigames.map.technologies.GameInfoPanel;
 import ch.fhnw.roundtable.etopia.minigames.map.technologies.SelectableTechnology;
 import ch.fhnw.roundtable.etopia.view.Menu;
 import ch.fhnw.roundtable.etopia.view.View;
@@ -24,10 +25,18 @@ public class MainMenu implements Menu {
     public void create() {
         backgroundGrass = new Texture("map/map_mockup_grass.png");
 
-        var wind = new SelectableTechnology(200, 900, null, new Texture("map/map_mockup_wind_icon.png"));
-        var biogas = new SelectableTechnology(250, 150, BucketGame.class, new Texture("map/map_mockup_biogas_icon.png"));
-        var thermal = new SelectableTechnology(1200, 900, null, new Texture("map/map_mockup_geothermal_icon.png"));
-        var solar = new SelectableTechnology(1700, 200, null, new Texture("map/map_mockup_solar_icon.png"));
+        var wind = new SelectableTechnology(200, 900, null,
+                new Texture("map/map_mockup_wind_icon.png"), new Texture("map/map_mockup_wind_icon_selected.png"),
+                new GameInfoPanel(200 + 100, 900 - 200, "Windkraft", "heute nicht verfügbar"));
+        var biogas = new SelectableTechnology(250, 150, BucketGame.class,
+                new Texture("map/map_mockup_biogas_icon.png"), new Texture("map/map_mockup_biogas_icon_selected.png"),
+                new GameInfoPanel(250 + 200, 150, "Biogas", ""));
+        var thermal = new SelectableTechnology(1200, 900, null,
+                new Texture("map/map_mockup_geothermal_icon.png"), new Texture("map/map_mockup_geothermal_icon_selected.png"),
+                new GameInfoPanel(1200 + 200, 900 - 200, "Geothermal", "heute nicht verfügbar"));
+        var solar = new SelectableTechnology(1700, 200, null,
+                new Texture("map/map_mockup_solar_icon.png"), new Texture("map/map_mockup_solar_icon_selected.png"),
+                new GameInfoPanel(1700 - 400, 200 + 70, "Solarkraft", "heute nicht verfügbar"));
 
         wind.connectTo(biogas, Navigatable.Direction.DOWN);
         wind.connectTo(thermal, Navigatable.Direction.RIGHT);
@@ -78,11 +87,6 @@ public class MainMenu implements Menu {
         renderer.batch.begin();
         renderer.batch.draw(backgroundGrass, 0, 0, ETopia.WORLD_WIDTH, ETopia.WORLD_HEIGHT);
         renderer.batch.end();
-
-//        renderer.shape.begin(ShapeRenderer.ShapeType.Filled);
-//        renderer.shape.setColor(Color.DARK_GRAY);
-//        renderer.shape.rect(0, 0, renderer.viewport.getWorldWidth(), renderer.viewport.getWorldHeight());
-//        renderer.shape.end();
 
         renderer.batch.begin();
         renderer.font.setColor(Color.WHITE);

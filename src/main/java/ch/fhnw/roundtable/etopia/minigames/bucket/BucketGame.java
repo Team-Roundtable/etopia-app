@@ -3,6 +3,7 @@ package ch.fhnw.roundtable.etopia.minigames.bucket;
 import ch.fhnw.roundtable.etopia.ETopia;
 import ch.fhnw.roundtable.etopia.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.minigames.infopanels.GameCompletedPanel;
 import ch.fhnw.roundtable.etopia.view.MiniGame;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -25,9 +26,15 @@ public class BucketGame implements MiniGame {
     private Texture bucketTexture;
     private Texture backgroundTexture;
 
+    private final GameCompletedPanel completionPanel;
+
+    public BucketGame(GameCompletedPanel completionPanel) {
+        this.completionPanel = completionPanel;
+    }
+
     @Override
     public boolean isCompleted() {
-        return score >= WIN_SCORE;
+        return completionPanel.wantsToClose;
     }
 
     /// Is run when starting the minigame. Create stuff like the bucket, load textures, initialize game.
@@ -67,7 +74,15 @@ public class BucketGame implements MiniGame {
             }
         }
 
-        bucket.update(input, delta);
+        if (score >= WIN_SCORE) {
+            completionPanel.visible = true;
+        }
+
+        if (completionPanel.visible) {
+            completionPanel.update(delta, input);
+        } else {
+            bucket.update(input, delta);
+        }
     }
 
     /// Math to check whether the bucket is touching the drop
@@ -100,6 +115,10 @@ public class BucketGame implements MiniGame {
         bucket.render(renderer.batch);
 
         renderer.batch.end(); // required. sends all previously called renderer.batch.draw methods to the screen at once
+
+        if (completionPanel.visible) {
+            completionPanel.render(renderer);
+        }
     }
 
     /// Clean up all stuff at the end of game, when scene is unloaded
