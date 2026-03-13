@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia;
 
 import ch.fhnw.roundtable.etopia.input.InputImpl;
+import ch.fhnw.roundtable.etopia.minigames.infopanels.GameCompletedPanel;
 import ch.fhnw.roundtable.etopia.minigames.map.MainMenu;
 import ch.fhnw.roundtable.etopia.minigames.bucket.BucketGame;
 import ch.fhnw.roundtable.etopia.view.Menu;
@@ -20,7 +21,9 @@ public class ETopia implements ApplicationListener {
     private Renderer renderer;
     private InputImpl input;
 
-    private final List<View> views = List.of(new MainMenu(), new BucketGame());
+    private final List<View> views = List.of(
+            new MainMenu(),
+            new BucketGame(new GameCompletedPanel("Gut gemacht.! Du hast genug Strom gesammelt.")));
     private int currentView = 0;
 
     public static final int WORLD_WIDTH = 1920;
