@@ -3,7 +3,8 @@ package ch.fhnw.roundtable.etopia;
 import ch.fhnw.roundtable.etopia.input.InputImpl;
 import ch.fhnw.roundtable.etopia.minigames.infopanels.GameCompletedPanel;
 import ch.fhnw.roundtable.etopia.minigames.map.MainMenu;
-import ch.fhnw.roundtable.etopia.minigames.bucket.BucketGame;
+import ch.fhnw.roundtable.etopia.minigames.biomass.Biomass;
+import ch.fhnw.roundtable.etopia.minigames.wind.Wind;
 import ch.fhnw.roundtable.etopia.view.Menu;
 import ch.fhnw.roundtable.etopia.view.MiniGame;
 import ch.fhnw.roundtable.etopia.view.View;
@@ -23,7 +24,8 @@ public class ETopia implements ApplicationListener {
 
     private final List<View> views = List.of(
             new MainMenu(),
-            new BucketGame(new GameCompletedPanel("Gut gemacht.! Du hast genug Strom gesammelt.")));
+            new Biomass(new GameCompletedPanel("Gut gemacht.! Du hast genug Strom gesammelt.")),
+            new Wind());
     private int currentView = 0;
 
     public static final int WORLD_WIDTH = 1920;

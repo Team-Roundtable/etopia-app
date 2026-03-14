@@ -1,6 +1,5 @@
 package ch.fhnw.roundtable.etopia.input;
 
-@SuppressWarnings("unused")
 public interface Input {
 
     boolean isUpPressed();

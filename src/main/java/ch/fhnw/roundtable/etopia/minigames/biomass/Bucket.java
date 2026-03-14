@@ -1,10 +1,11 @@
-package ch.fhnw.roundtable.etopia.minigames.bucket;
+package ch.fhnw.roundtable.etopia.minigames.biomass;
 
 import ch.fhnw.roundtable.etopia.ETopia;
 import ch.fhnw.roundtable.etopia.input.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+// todo create interface for these types of objects with x,y,create,update. maybe rework whole view system to make it recursiveable
 /// Handles the players bucket
 public class Bucket {
     public float x;
