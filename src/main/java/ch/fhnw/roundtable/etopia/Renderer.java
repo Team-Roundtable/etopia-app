@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.function.Consumer;
+
 public class Renderer {
     public final SpriteBatch batch;
     public final BitmapFont font;
@@ -29,6 +31,18 @@ public class Renderer {
     // todo review
     // todo review
     public void end() {
+    }
+
+    public void batch(Consumer<SpriteBatch> consumer) {
+        batch.begin();
+        consumer.accept(batch);
+        batch.end();
+    }
+
+    public void shape(ShapeRenderer.ShapeType type, Consumer<ShapeRenderer> consumer) {
+        shape.begin(type);
+        consumer.accept(shape);
+        shape.end();
     }
 
     // todo test

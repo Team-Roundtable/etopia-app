@@ -1,4 +1,4 @@
-package ch.fhnw.roundtable.etopia.minigames.bucket;
+package ch.fhnw.roundtable.etopia.minigames.biomass;
 
 import ch.fhnw.roundtable.etopia.ETopia;
 import ch.fhnw.roundtable.etopia.Renderer;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 /// Main class of the Bucket minigame (here for libgdx demonstration).
-public class BucketGame implements MiniGame {
+public class Biomass implements MiniGame {
     private List<Drop> drops;
     private Bucket bucket;
     private int score;
@@ -28,7 +28,7 @@ public class BucketGame implements MiniGame {
 
     private final GameCompletedPanel completionPanel;
 
-    public BucketGame(GameCompletedPanel completionPanel) {
+    public Biomass(GameCompletedPanel completionPanel) {
         this.completionPanel = completionPanel;
     }
 
@@ -41,9 +41,9 @@ public class BucketGame implements MiniGame {
     @Override
     public void create() {
         drops = new ArrayList<>();
-        dropTexture = new Texture("bucketgame/drop.png");
-        bucketTexture = new Texture("bucketgame/bucket.png");
-        backgroundTexture = new Texture("bucketgame/background.png");
+        dropTexture = new Texture("assets/biomass/drop.png");
+        bucketTexture = new Texture("assets/biomass/bucket.png");
+        backgroundTexture = new Texture("assets/biomass/background.png");
 
         bucket = new Bucket(ETopia.WORLD_WIDTH / 2f, 100, bucketTexture);
         score = 0;

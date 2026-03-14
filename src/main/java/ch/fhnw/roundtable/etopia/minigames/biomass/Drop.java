@@ -1,4 +1,4 @@
-package ch.fhnw.roundtable.etopia.minigames.bucket;
+package ch.fhnw.roundtable.etopia.minigames.biomass;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

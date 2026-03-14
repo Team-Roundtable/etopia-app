@@ -54,7 +54,7 @@ public class InputImpl implements Input {
             buttonUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
                     .id("BTN_UP")
                     .name("BUTTON_UP")
-                    .bcm(23)
+                    .address(23)
                     .pull(PullResistance.PULL_DOWN)
                     .debounce(3000L));
 

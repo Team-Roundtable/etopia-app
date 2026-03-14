@@ -3,9 +3,10 @@ package ch.fhnw.roundtable.etopia.minigames.map;
 import ch.fhnw.roundtable.etopia.*;
 import ch.fhnw.roundtable.etopia.helpers.Navigatable;
 import ch.fhnw.roundtable.etopia.input.Input;
-import ch.fhnw.roundtable.etopia.minigames.bucket.BucketGame;
+import ch.fhnw.roundtable.etopia.minigames.biomass.Biomass;
 import ch.fhnw.roundtable.etopia.minigames.map.technologies.GameInfoPanel;
 import ch.fhnw.roundtable.etopia.minigames.map.technologies.SelectableTechnology;
+import ch.fhnw.roundtable.etopia.minigames.wind.Wind;
 import ch.fhnw.roundtable.etopia.view.Menu;
 import ch.fhnw.roundtable.etopia.view.View;
 import com.badlogic.gdx.graphics.Color;
@@ -25,10 +26,10 @@ public class MainMenu implements Menu {
     public void create() {
         backgroundGrass = new Texture("map/map_mockup_grass.png");
 
-        var wind = new SelectableTechnology(200, 900, null,
+        var wind = new SelectableTechnology(200, 900, Wind.class,
                 new Texture("map/map_mockup_wind_icon.png"), new Texture("map/map_mockup_wind_icon_selected.png"),
                 new GameInfoPanel(200 + 100, 900 - 200, "Windkraft", "heute nicht verfügbar"));
-        var biogas = new SelectableTechnology(250, 150, BucketGame.class,
+        var biogas = new SelectableTechnology(250, 150, Biomass.class,
                 new Texture("map/map_mockup_biogas_icon.png"), new Texture("map/map_mockup_biogas_icon_selected.png"),
                 new GameInfoPanel(250 + 200, 150, "Biogas", ""));
         var thermal = new SelectableTechnology(1200, 900, null,
