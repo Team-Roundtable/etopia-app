@@ -50,6 +50,14 @@
             <version>${libgdx.version}</version>
         </dependency>
 
+        <!-- gdx fonts natives -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>${libgdx.version}</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
+
         <!-- pi4j -->
         <dependency>
             <groupId>com.pi4j</groupId>

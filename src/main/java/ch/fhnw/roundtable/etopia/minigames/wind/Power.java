@@ -50,4 +50,8 @@ public class Power implements View {
     public void addIndicator(float level) {
         this.level = Math.clamp(this.level + level, 0f, 1.0f);
     }
+
+    public float getLevel() {
+        return level;
+    }
 }

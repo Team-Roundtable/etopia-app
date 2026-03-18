@@ -17,14 +17,12 @@ public class GameInfoPanel implements View {
     private final String title;
     private final String description;
 
-
     public GameInfoPanel(float x, float y, String title, String description) {
         this.x = x;
         this.y = y;
         this.title = title;
         this.description = description;
     }
-
 
     @Override
     public void create() {
@@ -41,15 +39,13 @@ public class GameInfoPanel implements View {
         renderer.shape.begin(ShapeRenderer.ShapeType.Filled);
 
         renderer.shape.setColor(Color.BLACK);
-        renderer.shape.rect(
-                x - PANEL_OUTLINE_WIDTH, y - PANEL_OUTLINE_WIDTH,
-                PANEL_WIDTH + 2 * PANEL_OUTLINE_WIDTH, PANEL_HEIGHT + 2 * PANEL_OUTLINE_WIDTH);
+        renderer.shape.rect(x - PANEL_OUTLINE_WIDTH, y - PANEL_OUTLINE_WIDTH, PANEL_WIDTH + 2 * PANEL_OUTLINE_WIDTH, PANEL_HEIGHT + 2 * PANEL_OUTLINE_WIDTH);
 
         renderer.shape.setColor(Color.WHITE);
         renderer.shape.rect(x, y, PANEL_WIDTH, PANEL_HEIGHT);
 
         renderer.shape.setColor(Color.GRAY);
-        renderer.shape.rect(x + 10, y + 10, PANEL_WIDTH - 2*10, PANEL_HEIGHT - 2*10 - 70);
+        renderer.shape.rect(x + 10, y + 10, PANEL_WIDTH - 2 * 10, PANEL_HEIGHT - 2 * 10 - 70);
 
         renderer.shape.end();
 
@@ -57,11 +53,9 @@ public class GameInfoPanel implements View {
         renderer.batch.begin();
 
         renderer.font.setColor(Color.BLACK);
-        renderer.font.getData().setScale(3f);
         renderer.font.draw(renderer.batch, title, x + 20, y + PANEL_HEIGHT - 25);
 
         renderer.font.setColor(Color.WHITE);
-        renderer.font.getData().setScale(1.5f);
         renderer.font.draw(renderer.batch, description, x + 20, y + PANEL_HEIGHT - 90);
 
         renderer.font.draw(renderer.batch, "Start: Leertaste", x + 20, y + PANEL_HEIGHT - 140);

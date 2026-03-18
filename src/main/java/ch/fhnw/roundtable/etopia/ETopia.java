@@ -1,9 +1,9 @@
 package ch.fhnw.roundtable.etopia;
 
 import ch.fhnw.roundtable.etopia.input.InputImpl;
-import ch.fhnw.roundtable.etopia.minigames.infopanels.GameCompletedPanel;
-import ch.fhnw.roundtable.etopia.minigames.map.MainMenu;
 import ch.fhnw.roundtable.etopia.minigames.biomass.Biomass;
+import ch.fhnw.roundtable.etopia.minigames.infopanels.GameCompletedPanel;
+import ch.fhnw.roundtable.etopia.minigames.map.Map;
 import ch.fhnw.roundtable.etopia.minigames.wind.Wind;
 import ch.fhnw.roundtable.etopia.view.Menu;
 import ch.fhnw.roundtable.etopia.view.MiniGame;
@@ -16,16 +16,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.util.List;
 
-/// Main game class that handles all the minigames and menus and rendering.
 public class ETopia implements ApplicationListener {
 
     private Renderer renderer;
     private InputImpl input;
 
-    private final List<View> views = List.of(
-            new MainMenu(),
-            new Biomass(new GameCompletedPanel("Gut gemacht.! Du hast genug Strom gesammelt.")),
-            new Wind());
+    private final List<View> views = List.of(new Map(), new Biomass(new GameCompletedPanel("Gut gemacht.! Du hast genug Strom gesammelt.")), new Wind());
     private int currentView = 0;
 
     public static final int WORLD_WIDTH = 1920;
@@ -72,7 +68,6 @@ public class ETopia implements ApplicationListener {
             for (int i = 0; i < views.size(); i++) {
                 if (menu.changeView().isInstance(views.get(i))) {
                     nextView = i;
-                    menu.clearChangeViewRequest();
                     break;
                 }
             }

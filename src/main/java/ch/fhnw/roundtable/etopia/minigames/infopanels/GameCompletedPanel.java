@@ -46,11 +46,9 @@ public class GameCompletedPanel implements View {
 
         renderer.batch.begin();
 
-        renderer.font.getData().setScale(6);
         renderer.font.setColor(Color.BLACK);
         renderer.font.draw(renderer.batch, "Gut gemacht!", ETopia.WORLD_WIDTH / 3f + 50, ETopia.WORLD_HEIGHT - 100);
 
-        renderer.font.getData().setScale(2.5f);
         renderer.font.draw(renderer.batch, happyEndingText, 200 + 50, ETopia.WORLD_HEIGHT * 3.5f/5);
         renderer.font.draw(renderer.batch, "Zurück zur Karte: Leertaste", 200 + 50, ETopia.WORLD_HEIGHT * 3.5f/5 - 400);
 
