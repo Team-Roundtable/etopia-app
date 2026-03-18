@@ -29,7 +29,7 @@ public class Wind implements MiniGame {
 
     @Override
     public boolean isCompleted() {
-        return false;
+        return power.getLevel() == 1.0f;
     }
 
     @Override
