@@ -2,11 +2,9 @@ package ch.fhnw.roundtable.etopia;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.profiling.GLProfiler;
 
 public class Main {
 
-    // todo test or remove freetype font plugin
     // todo timer utility updated with delta
 
     public static void main(String[] args) {
