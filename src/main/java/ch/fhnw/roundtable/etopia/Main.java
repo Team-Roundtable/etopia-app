@@ -1,5 +1,6 @@
 package ch.fhnw.roundtable.etopia;
 
+import ch.fhnw.roundtable.etopia.config.Text;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
@@ -8,6 +9,9 @@ public class Main {
     // todo timer utility updated with delta
 
     public static void main(String[] args) {
+        Text.reloadLanguages();
+        Text.setLanguage("german");
+
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("E-Topia");
         configuration.useVsync(true);
