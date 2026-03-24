@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.map;
 
 import ch.fhnw.roundtable.etopia.ETopia;
+import ch.fhnw.roundtable.etopia.config.Text;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.views.Scene;
@@ -23,10 +24,19 @@ public class Map extends Scene<MapAsset> {
 
         background = getTexture(MapAsset.BACKGROUND);
 
+        PanelDetails windPanel = new PanelDetails(
+                Text.get("map.infopanel.wind.title"),
+                Text.get("map.infopanel.wind.description"),
+                Text.get("map.infopanel.start"));
         wind = new Technology(SceneType.WIND, 140, 170, 256, 256, getTexture(MapAsset.WIND),
-                new Panel(400, 170, 512, 320, getTexture(MapAsset.PANEL), new PanelDetails("Wind", "Description", "Start: Leertaste")));
+                new Panel(400, 170, 512, 320, getTexture(MapAsset.PANEL), windPanel));
+
+        PanelDetails biomassPanel = new PanelDetails(
+                Text.get("map.infopanel.biomass.title"),
+                Text.get("map.infopanel.biomass.description"),
+                Text.get("map.infopanel.start"));
         biomass = new Technology(SceneType.BIOMASS, 220, 780, 256, 256, getTexture(MapAsset.BIOMASS),
-                new Panel(500, 720, 512, 320, getTexture(MapAsset.PANEL), new PanelDetails("Biomasse", "something something", "Start: Leertaste")));
+                new Panel(500, 720, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
 
         selected = wind;
         selected.setSelected(true);
@@ -55,7 +65,7 @@ public class Map extends Scene<MapAsset> {
     public void renderScene(Renderer renderer) {
         renderer.batch(batch -> {
             batch.draw(background, 0, 0, ETopia.WORLD_WIDTH, ETopia.WORLD_HEIGHT);
-            renderer.font.draw(batch, "Select [Enter/Space], Back [Backspace/Esc], Move [Arrows/WASD]", 0, 32);
+            renderer.font.draw(batch, Text.get("map.infotext"), 0, 32);
         });
 
         wind.render(renderer);
