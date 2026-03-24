@@ -4,6 +4,7 @@ import ch.fhnw.roundtable.etopia.Main;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +17,8 @@ public class Text {
 
 
     public static String get(String key) {
-        if (currentLanguage == null) return "NO LANG SELECTED";
-        return Optional.ofNullable(languages.get(currentLanguage).get(key)).orElse(key);
+        if (currentLanguage == null) return "nolanguage " + key;
+        return Optional.ofNullable(languages.get(currentLanguage).get(key)).orElse("novalue " + key);
     }
 
     public static boolean addLanguage(String name, Map<String, String> text) {
@@ -36,7 +37,7 @@ public class Text {
         return languages.keySet();
     }
 
-    public static void reloadLanguages() {
+    public static void reloadLanguages() throws Exception {
         languages.clear();
 
         var config = loadConfig();
@@ -52,8 +53,11 @@ public class Text {
         addLanguage(language.name(), languagePack);
     }
 
-    private static Configuration loadConfig() {
+    private static Configuration loadConfig() throws Exception {
         var configFile = Path.of(getConfigDir(), "config.json");
+        if (!Files.exists(configFile)) {
+            throw new Exception("Couldn't find config file. Is needed for loading language packs.");
+        }
         return new ObjectMapper().readValue(configFile, Configuration.class);
     }
 

@@ -9,8 +9,13 @@ public class Main {
     // todo timer utility updated with delta
 
     public static void main(String[] args) {
-        Text.reloadLanguages();
-        Text.setLanguage("german");
+        try {
+            Text.reloadLanguages();
+            Text.setLanguage("german");
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            System.err.println("For developers: Are you running generate-sources before before launch? (Add it to run Configuration)");
+        }
 
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("E-Topia");
