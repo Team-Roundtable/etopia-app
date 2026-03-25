@@ -5,7 +5,6 @@ import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.views.Scene;
 import ch.fhnw.roundtable.etopia.views.SceneType;
-import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ public class Wind extends Scene<WindAsset> {
     private float gustTimer = 0f;
 
     public Wind() {
-        // todo could just return WindAsset.values()
         super(WindAsset.class);
 
         turbine = new Turbine(getTexture(WindAsset.TURBINE), getTexture(WindAsset.POLE));
