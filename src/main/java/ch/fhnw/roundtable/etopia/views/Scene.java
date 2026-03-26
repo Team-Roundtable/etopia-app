@@ -8,7 +8,8 @@ import java.util.EnumMap;
 public abstract class Scene<T extends Enum<T> & Asset> implements View {
 
     private final EnumMap<T, Texture> textures;
-    // todo rethink showing panels, startup should be directly called and end screen should be handled in a nice way via call
+    // todo rethink showing panels, startup should be directly called and
+    //  end screen should be handled in a nice way via call
 
     public Scene(Class<T> type) {
         this.textures = new EnumMap<>(type);
@@ -22,7 +23,10 @@ public abstract class Scene<T extends Enum<T> & Asset> implements View {
         var value = textures.get(asset);
 
         if (value == null) {
-            throw new IllegalStateException(String.format("The asset %s.%s is not loaded in scene constructor", asset.getClass().getSimpleName(), asset.name()));
+            throw new IllegalStateException(String.format(
+                    "The asset %s.%s is not loaded in scene constructor",
+                    asset.getClass().getSimpleName(),
+                    asset.name()));
         }
 
         return value;

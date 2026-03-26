@@ -4,9 +4,7 @@ import ch.fhnw.roundtable.etopia.ETopia;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.views.Entity;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Power extends Entity {
 
@@ -36,12 +34,16 @@ public class Power extends Entity {
     public void renderEntity(Renderer renderer) {
         renderer.batch(batch -> {
             batch.draw(progress, x, y, BAR_WIDTH, BAR_HEIGHT);
-            batch.draw(indicator, indicatorX, indicatorY, INDICATOR_WIDTH + (BAR_WIDTH - INDICATOR_WIDTH * 2) * level, INDICATOR_HEIGHT);
+            batch.draw(indicator,
+                    indicatorX,
+                    indicatorY,
+                    INDICATOR_WIDTH + (BAR_WIDTH - INDICATOR_WIDTH * 2) * level,
+                    INDICATOR_HEIGHT);
         });
     }
 
-    public void addIndicator(float level) {
-        this.level = Math.clamp(this.level + level, 0f, 1.0f);
+    public void addIndicator(float value) {
+        this.level = Math.clamp(this.level + value, 0f, 1.0f);
     }
 
     public float getLevel() {

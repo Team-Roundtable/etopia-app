@@ -32,7 +32,11 @@ public class Panel extends Entity {
         renderer.batch(batch -> {
             batch.draw(background, x, y, width, height);
             renderer.font.setColor(Color.BLACK);
-            renderer.font.draw(batch, details.toString(), x + PADDING, y + height - PADDING, width - PADDING * 2, -1, true);
+            renderer.font.draw(batch, details.toString(),
+                    x + PADDING,
+                    y + height - PADDING,
+                    width - PADDING * 2,
+                    -1, true);
         });
     }
 

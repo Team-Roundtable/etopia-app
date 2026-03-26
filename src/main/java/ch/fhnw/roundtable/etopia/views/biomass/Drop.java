@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Drop extends Entity {
 
-    private final float VELOCITY = 250f;
+    private static final float VELOCITY = 250f;
 
     private final Texture texture;
     public Drop(float x, float y, Texture texture) {

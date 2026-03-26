@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN" "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+	<property name="charset" value="UTF-8"/>
+	<property name="severity" value="warning" />
+
+	<!-- Note: Exclude code analysis for non-java files.  -->
+	<module name="SuppressionSingleFilter">
+		<property name="checks" value=".*"/>
+		<property name="files" value=".+\.(?:txt|xml|csv|sh|xlsx|html|sql|eot|ttf|woff|css|png)$"/>
+	</module>
+
+	<module name="TreeWalker">
+		<property name="tabWidth" value="4" />
+		<module name="JavadocMethod">
+			<property name="accessModifiers" value="public"/>
+		</module>
+		<module name="JavadocType" />
+	    <module name="JavadocStyle" />
+		<module name="ConstantName" />
+		<module name="LocalFinalVariableName" />
+		<module name="LocalVariableName" />
+		<module name="MemberName" />
+		<module name="MethodName" />
+		<module name="PackageName" />
+		<module name="ParameterName" />
+		<module name="StaticVariableName" />				
+		<module name="UnusedLocalVariable"/>
+		<module name="TypeName" />
+		<module name="AvoidStarImport" />
+		<module name="UnusedImports"/>
+		<module name="IllegalImport" />
+		<module name="RedundantImport" />
+		<module name="Indentation">
+            <property name="caseIndent" value="4" />
+		</module>
+		<module name="ParameterNumber" />
+		<module name="EmptyForIteratorPad" />
+		<module name="MethodParamPad" />
+		<module name="NoWhitespaceAfter" />
+		<module name="NoWhitespaceBefore" />
+		<module name="OperatorWrap" />
+		<module name="ParenPad" />
+		<module name="TypecastParenPad" />
+		<module name="WhitespaceAfter" />
+		<module name="WhitespaceAround">
+            <property name="allowEmptyMethods" value="true" />
+        </module>
+        <module name="ModifierOrder" />
+		<module name="RedundantModifier" />
+		<module name="AvoidNestedBlocks" />
+		<module name="EmptyBlock" />
+		<module name="LeftCurly" />
+        <module name="RightCurly" />
+		<module name="EmptyStatement" />
+		<module name="EqualsHashCode" />
+		<module name="IllegalInstantiation" />
+		<module name="InnerAssignment" />
+		<module name="MissingSwitchDefault" />
+		<module name="SimplifyBooleanExpression" />
+		<module name="SimplifyBooleanReturn" />
+		<module name="FinalClass" />
+        <module name="HideUtilityClassConstructor" />
+        <module name="InterfaceIsType" />
+		<module name="VisibilityModifier">
+            <property name="protectedAllowed" value="true"  />
+            <property name="allowPublicFinalFields" value="true" />
+        </module>
+		<module name="ArrayTypeStyle" />
+		<module name="TodoComment" />
+		<module name="UpperEll" />
+		<module name="SingleSpaceSeparator"/>
+		<module name="HiddenField">
+			<property name="ignoreConstructorParameter" value="true"/>
+			<property name="ignoreSetter" value="true"/>
+		</module>
+		<module name="MissingOverride"/>
+		<module name="StringLiteralEquality"/>
+		<module name="MultipleVariableDeclarations"/>
+		<module name="DefaultComesLast"/>
+		<!-- disable metrics
+		<module name="CyclomaticComplexity"/>
+		-->
+	</module>
+	<module name="FileLength" />
+	<module name="LineLength">
+		<property name="max" value="120" />
+	</module>
+	<module name="NewlineAtEndOfFile">
+		<property name="lineSeparator" value="lf_cr_crlf" />
+	</module>
+	<module name="Translation" />
+	<module name="FileTabCharacter">
+	    <property name="eachLine" value="true"/>
+		<property name="fileExtensions" value="java" />
+	</module>
+</module>
+

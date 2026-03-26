@@ -40,8 +40,8 @@ public class Production extends Entity {
         });
     }
 
-    public void addIndicator(float level) {
-        this.level = Math.clamp(this.level + level, -1.0f, 1.0f);
+    public void addIndicator(float value) {
+        this.level = Math.clamp(this.level + value, -1.0f, 1.0f);
     }
 
     public float getLevel() {

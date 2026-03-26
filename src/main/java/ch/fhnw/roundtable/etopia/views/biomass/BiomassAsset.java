@@ -1,7 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.biomass;
 
 import ch.fhnw.roundtable.etopia.views.Asset;
-import com.badlogic.gdx.graphics.Texture;
 
 public enum BiomassAsset implements Asset {
     PANEL("assets/commons/panel/background.png"),

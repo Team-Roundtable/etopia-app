@@ -11,34 +11,35 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-public class Text {
-    private final static Map<String, Map<String, String>> languages = new HashMap<>();
+public final class Text {
+    private static final Map<String, Map<String, String>> LANGUAGES = new HashMap<>();
     private static String currentLanguage;
 
+    private Text() { }
 
     public static String get(String key) {
         if (currentLanguage == null) return "nolanguage " + key;
-        return Optional.ofNullable(languages.get(currentLanguage).get(key)).orElse("novalue " + key);
+        return Optional.ofNullable(LANGUAGES.get(currentLanguage).get(key)).orElse("novalue " + key);
     }
 
     public static boolean addLanguage(String name, Map<String, String> text) {
-        if (languages.containsKey(name)) return false;
-        languages.put(name, text);
+        if (LANGUAGES.containsKey(name)) return false;
+        LANGUAGES.put(name, text);
         return true;
     }
 
     public static boolean setLanguage(String name) {
-        if (!languages.containsKey(name)) return false;
+        if (!LANGUAGES.containsKey(name)) return false;
         currentLanguage = name;
         return true;
     }
 
     public static Set<String> getAvailableLanguages() {
-        return languages.keySet();
+        return LANGUAGES.keySet();
     }
 
     public static void reloadLanguages() throws Exception {
-        languages.clear();
+        LANGUAGES.clear();
 
         var config = loadConfig();
         for (Language language : config.languages()) {
