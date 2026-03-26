@@ -21,8 +21,16 @@ public class Biomass extends Scene<BiomassAsset> {
     private final Random random = new Random();
     private final Texture background;
 
-    private final Panel completionPanel = new Panel(128, 128, ETopia.WORLD_WIDTH - 256, ETopia.WORLD_HEIGHT - 256, getTexture(BiomassAsset.PANEL),
-            new PanelDetails("Gewonnen!", "Gut gemacht.! Du hast genug Strom gesammelt.", "Zurück zur Karte: Leertaste"));
+    private final Panel completionPanel = new Panel(
+            128,
+            128,
+            ETopia.WORLD_WIDTH - 256,
+            ETopia.WORLD_HEIGHT - 256,
+            getTexture(BiomassAsset.PANEL),
+            new PanelDetails(
+                    "Gewonnen!",
+                    "Gut gemacht.! Du hast genug Strom gesammelt.",
+                    "Zurück zur Karte: Leertaste"));
 
     private final Bucket bucket;
     private final List<Drop> drops = new ArrayList<>();
@@ -70,8 +78,12 @@ public class Biomass extends Scene<BiomassAsset> {
     }
 
     private void spawnDrop() {
-        final float PADDING = 50;
-        var drop = new Drop(random.nextFloat(PADDING, ETopia.WORLD_WIDTH - PADDING), ETopia.WORLD_HEIGHT, getTexture(BiomassAsset.DROP));
+        final float padding = 50;
+
+        float minX = padding;
+        float maxX = ETopia.WORLD_WIDTH - padding;
+
+        var drop = new Drop(random.nextFloat(minX, maxX), ETopia.WORLD_HEIGHT, getTexture(BiomassAsset.DROP));
         drops.add(drop);
     }
 

@@ -12,27 +12,28 @@ import org.slf4j.LoggerFactory;
 // todo rename, debounce?
 public class InputImpl implements Input {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(InputImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InputImpl.class);
 
     // todo light up button
-    boolean isUpPressed = false;
-    boolean isDownPressed = false;
-    boolean isLeftPressed = false;
-    boolean isRightPressed = false;
-    boolean isSelectPressed = false;
-    boolean isBackPressed = false;
-    boolean isUpJustPressed = false;
-    boolean isDownJustPressed = false;
-    boolean isLeftJustPressed = false;
-    boolean isRightJustPressed = false;
-    boolean isSelectJustPressed = false;
-    boolean isBackJustPressed = false;
-    boolean isUpJustReleased = false;
-    boolean isDownJustReleased = false;
-    boolean isLeftJustReleased = false;
-    boolean isRightJustReleased = false;
-    boolean isSelectJustReleased = false;
-    boolean isBackJustReleased = false;
+    private boolean isUpPressed = false;
+    private boolean isDownPressed = false;
+    private boolean isLeftPressed = false;
+    private boolean isRightPressed = false;
+    private boolean isSelectPressed = false;
+    private boolean isBackPressed = false;
+    private boolean isUpJustPressed = false;
+    private boolean isDownJustPressed = false;
+    private boolean isLeftJustPressed = false;
+    private boolean isRightJustPressed = false;
+    private boolean isSelectJustPressed = false;
+    private boolean isBackJustPressed = false;
+    private boolean isUpJustReleased = false;
+    private boolean isDownJustReleased = false;
+    private boolean isLeftJustReleased = false;
+    private boolean isRightJustReleased = false;
+    private boolean isSelectJustReleased = false;
+    private boolean isBackJustReleased = false;
+
     private Context pi4j;
     private DigitalInput buttonUp;
     private DigitalInput buttonDown;

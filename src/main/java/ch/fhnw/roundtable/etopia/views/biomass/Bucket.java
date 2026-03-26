@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Bucket extends Entity {
 
-    private final float SPEED = 800f;
+    private static final float SPEED = 800f;
     private final Texture texture;
 
     public Bucket(float x, float y, Texture texture) {

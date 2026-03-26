@@ -1,7 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.map;
 
 import ch.fhnw.roundtable.etopia.views.Asset;
-import com.badlogic.gdx.graphics.Texture;
 
 public enum MapAsset implements Asset {
     PANEL("assets/commons/panel/background.png"),

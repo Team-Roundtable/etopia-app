@@ -17,7 +17,7 @@ public class Map extends Scene<MapAsset> {
 
     private final Texture background;
     private Technology selected;
-    private SceneType next;
+    private SceneType nextScene;
 
     public Map() {
         super(MapAsset.class);
@@ -57,7 +57,7 @@ public class Map extends Scene<MapAsset> {
         }
 
         if (input.isSelectJustPressed()) {
-            next = selected.getView();
+            nextScene = selected.getView();
         }
     }
 
@@ -72,14 +72,14 @@ public class Map extends Scene<MapAsset> {
         biomass.render(renderer);
     }
 
-    private void updateSelected(Technology next) {
+    private void updateSelected(Technology nextTechnology) {
         selected.setSelected(false);
-        selected = next;
+        selected = nextTechnology;
         selected.setSelected(true);
     }
 
     @Override
     public SceneType change() {
-        return next;
+        return nextScene;
     }
 }

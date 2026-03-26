@@ -19,7 +19,7 @@ public class Wind extends Scene<WindAsset> {
     private final Power power;
     private final List<Gust> gusts = new ArrayList<>();
 
-    private final float GUST_COOLDOWN = 0.5f;
+    private static final float GUST_COOLDOWN = 0.5f;
     private float gustTimer = 0f;
 
     public Wind() {

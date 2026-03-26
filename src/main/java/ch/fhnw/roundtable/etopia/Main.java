@@ -4,7 +4,9 @@ import ch.fhnw.roundtable.etopia.config.Text;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-public class Main {
+public final class Main {
+
+    private Main() { }
 
     // todo timer utility updated with delta
 
@@ -14,7 +16,8 @@ public class Main {
             Text.setLanguage("german");
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            System.err.println("For developers: Are you running generate-sources before before launch? (Add it to run Configuration)");
+            System.err.println("For developers: Are you running generate-sources before before launch?");
+            System.err.println("(Add it to run Configuration)");
         }
 
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();

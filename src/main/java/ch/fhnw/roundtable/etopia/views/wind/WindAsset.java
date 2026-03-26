@@ -1,7 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.wind;
 
 import ch.fhnw.roundtable.etopia.views.Asset;
-import com.badlogic.gdx.graphics.Texture;
 
 public enum WindAsset implements Asset {
     BACKGROUND("assets/wind/background.png"),
