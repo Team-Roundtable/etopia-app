@@ -9,6 +9,7 @@ import ch.fhnw.roundtable.etopia.views.map.Map;
 import ch.fhnw.roundtable.etopia.views.wind.Wind;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
 
@@ -19,7 +20,7 @@ public class ETopia implements ApplicationListener {
     private Renderer renderer;
     private InputImpl input;
     private SceneType currentSceneType;
-    private Scene currentScene;
+    private Scene<?> currentScene;
 
     // todo global game state, maybe via singleton
 
@@ -47,7 +48,7 @@ public class ETopia implements ApplicationListener {
         currentScene.update(delta, input);
         currentScene.render(renderer);
 
-        var next = currentScene.change();
+        var next = getNextScene();
         if (next != null) {
             currentScene.dispose();
 
@@ -59,6 +60,13 @@ public class ETopia implements ApplicationListener {
                 case SOLAR, GEOTHERMAL, GRID -> null;
             };
         }
+    }
+
+    private SceneType getNextScene() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            return SceneType.MAP;
+        }
+        return currentScene.change();
     }
 
     @Override
