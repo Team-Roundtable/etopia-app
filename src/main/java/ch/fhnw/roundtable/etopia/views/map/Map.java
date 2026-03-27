@@ -38,6 +38,10 @@ public class Map extends Scene<MapAsset> {
         biomass = new Technology(SceneType.BIOMASS, 220, 780, 256, 256, getTexture(MapAsset.BIOMASS),
                 new Panel(500, 720, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
 
+        wind.navigation.setUp(biomass.navigation);
+        biomass.navigation.setDown(wind.navigation);
+
+
         selected = wind;
         selected.setSelected(true);
     }
@@ -45,14 +49,23 @@ public class Map extends Scene<MapAsset> {
     @Override
     public void updateScene(float delta, Input input) {
         if (input.isUpJustPressed()) {
-            if (selected == wind) {
-                updateSelected(biomass);
+            if (selected.navigation.getUp() != null) {
+                updateSelected(selected.navigation.getUp().getElement());
             }
         }
-
         if (input.isDownJustPressed()) {
-            if (selected == biomass) {
-                updateSelected(wind);
+            if (selected.navigation.getDown() != null) {
+                updateSelected(selected.navigation.getDown().getElement());
+            }
+        }
+        if (input.isRightJustPressed()) {
+            if (selected.navigation.getRight() != null) {
+                updateSelected(selected.navigation.getRight().getElement());
+            }
+        }
+        if (input.isLeftJustPressed()) {
+            if (selected.navigation.getLeft() != null) {
+                updateSelected(selected.navigation.getLeft().getElement());
             }
         }
 
