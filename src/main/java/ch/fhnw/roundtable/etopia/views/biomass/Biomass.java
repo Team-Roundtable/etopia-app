@@ -5,6 +5,7 @@ import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.views.Scene;
 import ch.fhnw.roundtable.etopia.views.SceneType;
+import ch.fhnw.roundtable.etopia.views.commons.healthbar.HealthBar;
 import ch.fhnw.roundtable.etopia.views.commons.panel.Panel;
 import ch.fhnw.roundtable.etopia.views.commons.panel.PanelDetails;
 import com.badlogic.gdx.graphics.Texture;
@@ -34,12 +35,15 @@ public class Biomass extends Scene<BiomassAsset> {
 
     private final Bucket bucket;
     private final List<Drop> drops = new ArrayList<>();
+    private final HealthBar healthBar;
 
     private int score = 0;
     private float dropSpawnTimer = 0f;
 
     public Biomass() {
         super(BiomassAsset.class);
+        this.healthBar = new HealthBar(100, ETopia.WORLD_HEIGHT - 100);
+        healthBar.resetHealth();
         background = getTexture(BiomassAsset.BACKGROUND);
         bucket = new Bucket(ETopia.WORLD_WIDTH / 2f, 100, getTexture(BiomassAsset.BUCKET));
     }
@@ -61,6 +65,7 @@ public class Biomass extends Scene<BiomassAsset> {
             drop.update(delta, input);
             if (drop.getY() < 0 - drop.getWidth()) {
                 iterator.remove();
+                healthBar.removeHealth();
                 continue;
             }
 
@@ -70,7 +75,7 @@ public class Biomass extends Scene<BiomassAsset> {
             }
         }
 
-        if (score >= WIN_SCORE) {
+        if (score >= WIN_SCORE || healthBar.isDead()) {
             completionPanel.update(delta, input);
         } else {
             bucket.update(delta, input);
@@ -97,9 +102,11 @@ public class Biomass extends Scene<BiomassAsset> {
 
         bucket.render(renderer);
 
-        if (score >= WIN_SCORE) {
+        if (score >= WIN_SCORE || healthBar.isDead()) {
             completionPanel.render(renderer);
         }
+
+        healthBar.render(renderer);
     }
 
     @Override
