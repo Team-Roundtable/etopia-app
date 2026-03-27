@@ -4,6 +4,7 @@ import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
 import ch.fhnw.roundtable.etopia.views.Entity;
 import ch.fhnw.roundtable.etopia.views.SceneType;
+import ch.fhnw.roundtable.etopia.views.commons.Navigation;
 import ch.fhnw.roundtable.etopia.views.commons.panel.Panel;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,6 +15,7 @@ public class Technology extends Entity {
     private final Panel panel;
     private TextureRegion textureUnselected;
     private TextureRegion textureSelected;
+    public final Navigation<Technology> navigation;
 
     private boolean selected = false;
 
@@ -29,6 +31,8 @@ public class Technology extends Entity {
         var textures = TextureRegion.split(texture, 64, 64)[0];
         textureUnselected = textures[0];
         textureSelected = textures[1];
+
+        navigation = new Navigation<>(this);
     }
 
     @Override
