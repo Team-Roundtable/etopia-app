@@ -1,0 +1,49 @@
+image: maven:3.9.9-eclipse-temurin-21
+
+stages:
+  - validate
+  - test
+  - build
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+
+before_script:
+  - mvn -v
+
+# --- Validate (Checkstyle) ---
+checkstyle:
+  stage: validate
+  script:
+    - mvn validate checkstyle:checkstyle
+  artifacts:
+    paths:
+      - target/site/checkstyle.html
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
+# --- Test ---
+test:
+  stage: test
+  script:
+    - mvn test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
+# --- Build JAR (only on main merges) ---
+build:
+  stage: build
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 week
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
