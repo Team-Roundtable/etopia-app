@@ -1,5 +1,10 @@
 image: maven:3.9.14-eclipse-temurin-25-alpine
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
 stages:
   - validate
   - test
@@ -20,18 +25,12 @@ checkstyle:
   stage: validate
   script:
     - mvn validate
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH'
 
 # --- Test ---
 test:
   stage: test
   script:
     - mvn test
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: '$CI_COMMIT_BRANCH'
 
 # --- Build JAR (only on main merges) ---
 build:
@@ -43,4 +42,4 @@ build:
       - target/*.jar
     expire_in: 1 week
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
