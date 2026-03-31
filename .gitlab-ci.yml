@@ -19,10 +19,7 @@ before_script:
 checkstyle:
   stage: validate
   script:
-    - mvn validate checkstyle:checkstyle
-  artifacts:
-    paths:
-      - target/reports/checkstyle.html
+    - mvn validate
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
