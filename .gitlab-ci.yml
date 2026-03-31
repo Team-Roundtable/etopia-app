@@ -1,4 +1,4 @@
-image: maven:3.9.9-eclipse-temurin-21
+image: maven:3.9.9-eclipse-temurin-25
 
 stages:
   - validate
@@ -22,7 +22,7 @@ checkstyle:
     - mvn validate checkstyle:checkstyle
   artifacts:
     paths:
-      - target/site/checkstyle.html
+      - target/reports/checkstyle.html
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH'
