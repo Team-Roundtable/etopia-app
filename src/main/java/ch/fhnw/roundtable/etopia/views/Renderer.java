@@ -54,4 +54,15 @@ public class Renderer {
         shape.dispose();
         font.dispose();
     }
+
+    public void setCameraPosition(float x, float y) {
+        viewport.getCamera().position.set(x, y, 0);
+        viewport.getCamera().update();
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+        shape.setProjectionMatrix(viewport.getCamera().combined);
+    }
+
+    public void resetCamera() {
+        setCameraPosition(ETopia.WORLD_WIDTH / 2f, ETopia.WORLD_HEIGHT / 2f);
+    }
 }

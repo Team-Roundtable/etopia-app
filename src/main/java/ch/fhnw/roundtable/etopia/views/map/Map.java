@@ -16,6 +16,7 @@ public class Map extends Scene<MapAsset> {
     private final Technology biomass;
     private final Technology grid;
     private final Technology solar;
+    private final Technology geothermal;
 
     private final Texture background;
     private Technology selected;
@@ -38,7 +39,14 @@ public class Map extends Scene<MapAsset> {
                 Text.get("map.infopanel.biomass.description"),
                 Text.get("map.infopanel.start"));
         biomass = new Technology(SceneType.BIOMASS, 220, 780, 256, 256, getTexture(MapAsset.BIOMASS),
-                new Panel(500, 720, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
+                new Panel(300, 420, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
+
+        PanelDetails geothermalPanel = new PanelDetails(
+                Text.get("map.infopanel.geothermal.title"),
+                Text.get("map.infopanel.geothermal.description"),
+                Text.get("map.infopanel.start"));
+        geothermal = new Technology(SceneType.GEOTHERMAL, 1400, 170, 256, 256, getTexture(MapAsset.DRILL),
+                new Panel(888, 170, 512, 320, getTexture(MapAsset.PANEL), geothermalPanel));
 
         PanelDetails solarPanel = new PanelDetails(
                 Text.get("map.infopanel.solar.title"),
@@ -55,11 +63,13 @@ public class Map extends Scene<MapAsset> {
                 new Panel(600, 720, 512, 320, getTexture(MapAsset.PANEL), gridPanel));
 
         wind.navigation.setUp(biomass.navigation);
+        wind.navigation.setRight(geothermal.navigation);
         biomass.navigation.setDown(wind.navigation);
         biomass.navigation.setRight(solar.navigation);
         solar.navigation.setLeft(biomass.navigation);
         solar.navigation.setDown(grid.navigation);
         grid.navigation.setUp(solar.navigation);
+        geothermal.navigation.setLeft(wind.navigation);
 
         selected = wind;
         selected.setSelected(true);
@@ -102,6 +112,7 @@ public class Map extends Scene<MapAsset> {
 
         wind.render(renderer);
         biomass.render(renderer);
+        geothermal.render(renderer);
         grid.render(renderer);
         solar.render(renderer);
     }
