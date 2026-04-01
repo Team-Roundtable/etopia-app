@@ -36,7 +36,8 @@ public abstract class Entity implements View {
 
     public abstract void renderEntity(Renderer renderer);
 
-    public void disposeEntity() {}
+    public void disposeEntity() {
+    }
 
     public float getX() {
         return x;

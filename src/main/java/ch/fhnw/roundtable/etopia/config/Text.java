@@ -15,7 +15,8 @@ public final class Text {
     private static final Map<String, Map<String, String>> LANGUAGES = new HashMap<>();
     private static String currentLanguage;
 
-    private Text() { }
+    private Text() {
+    }
 
     public static String get(String key) {
         if (currentLanguage == null) return "nolanguage " + key;
