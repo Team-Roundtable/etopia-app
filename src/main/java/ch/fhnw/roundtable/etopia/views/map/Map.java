@@ -14,6 +14,7 @@ public class Map extends Scene<MapAsset> {
 
     private final Technology wind;
     private final Technology biomass;
+    private final Technology grid;
     private final Technology solar;
 
     private final Texture background;
@@ -46,10 +47,19 @@ public class Map extends Scene<MapAsset> {
         solar = new Technology(SceneType.SOLAR, 1000, 780, 256, 256, getTexture(MapAsset.SOLAR),
                 new Panel(1350, 720, 512, 320, getTexture(MapAsset.PANEL), solarPanel));
 
+        PanelDetails gridPanel = new PanelDetails(
+                Text.get("map.infopanel.biomass.title"),
+                Text.get("map.infopanel.biomass.description"),
+                Text.get("map.infopanel.start"));
+        grid = new Technology(SceneType.GRID, 820, 480, 256, 256, getTexture(MapAsset.CITY),
+                new Panel(600, 720, 512, 320, getTexture(MapAsset.PANEL), gridPanel));
+
         wind.navigation.setUp(biomass.navigation);
         biomass.navigation.setDown(wind.navigation);
         biomass.navigation.setRight(solar.navigation);
         solar.navigation.setLeft(biomass.navigation);
+        solar.navigation.setDown(grid.navigation);
+        grid.navigation.setUp(solar.navigation);
 
         selected = wind;
         selected.setSelected(true);
@@ -92,6 +102,7 @@ public class Map extends Scene<MapAsset> {
 
         wind.render(renderer);
         biomass.render(renderer);
+        grid.render(renderer);
         solar.render(renderer);
     }
 
