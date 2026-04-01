@@ -6,11 +6,11 @@ public enum WindAsset implements Asset {
     BACKGROUND("assets/wind/background.png"),
     POLE("assets/wind/turbine-pole.png"),
     TURBINE("assets/wind/turbine.png"),
-    PRODUCTION_BAR("assets/wind/production-bar.png"),
-    PRODUCTION_INDICATOR("assets/wind/production-indicator.png"),
+    GUST("assets/wind/gust.png"),
+    TORNADO("assets/wind/tornado.png"),
     POWER_BAR("assets/wind/power-bar.png"),
     POWER_INDICATOR("assets/wind/power-indicator.png"),
-    GUST("assets/wind/gust.png");
+    LIFEPOINT("assets/wind/lifepoint.png");
 
     private final String path;
 
