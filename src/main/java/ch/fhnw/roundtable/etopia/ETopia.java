@@ -6,6 +6,7 @@ import ch.fhnw.roundtable.etopia.views.Scene;
 import ch.fhnw.roundtable.etopia.views.SceneType;
 import ch.fhnw.roundtable.etopia.views.biomass.Biomass;
 import ch.fhnw.roundtable.etopia.views.map.Map;
+import ch.fhnw.roundtable.etopia.views.solar.Solar;
 import ch.fhnw.roundtable.etopia.views.wind.Wind;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -57,7 +58,8 @@ public class ETopia implements ApplicationListener {
                 case MAP -> new Map();
                 case WIND -> new Wind();
                 case BIOMASS -> new Biomass();
-                case SOLAR, GEOTHERMAL, GRID -> null;
+                case SOLAR -> new Solar();
+                case GEOTHERMAL, GRID -> null;
             };
         }
     }
