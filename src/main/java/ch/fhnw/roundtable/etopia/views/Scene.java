@@ -57,5 +57,6 @@ public abstract class Scene<T extends Enum<T> & Asset> implements View {
 
     public abstract SceneType change();
 
-    public void disposeScene() {}
+    public void disposeScene() {
+    }
 }

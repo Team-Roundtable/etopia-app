@@ -4,9 +4,9 @@ import ch.fhnw.roundtable.etopia.input.InputImpl;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.Scene;
 import ch.fhnw.roundtable.etopia.views.SceneType;
-import ch.fhnw.roundtable.etopia.views.biomass.Biomass;
 import ch.fhnw.roundtable.etopia.views.geothermal.Geothermal;
 import ch.fhnw.roundtable.etopia.views.grid.Grid;
+import ch.fhnw.roundtable.etopia.views.biogas.Biogas;
 import ch.fhnw.roundtable.etopia.views.map.Map;
 import ch.fhnw.roundtable.etopia.views.solar.Solar;
 import ch.fhnw.roundtable.etopia.views.wind.Wind;
@@ -59,7 +59,7 @@ public class ETopia implements ApplicationListener {
             currentScene = switch (currentSceneType) {
                 case MAP -> new Map();
                 case WIND -> new Wind();
-                case BIOMASS -> new Biomass();
+                case BIOMASS -> new Biogas();
                 case GRID -> new Grid();
                 case SOLAR -> new Solar();
                 case GEOTHERMAL -> new Geothermal();
