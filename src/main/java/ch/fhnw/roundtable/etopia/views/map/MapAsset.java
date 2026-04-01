@@ -6,6 +6,7 @@ public enum MapAsset implements Asset {
     PANEL("assets/commons/panel/background.png"),
     BACKGROUND("assets/map/background.png"),
     WIND("assets/map/wind.png"),
+    SOLAR("assets/map/solar.png"),
     BIOMASS("assets/map/biomass.png");
 
     private final String path;

@@ -14,6 +14,7 @@ public class Map extends Scene<MapAsset> {
 
     private final Technology wind;
     private final Technology biomass;
+    private final Technology solar;
 
     private final Texture background;
     private Technology selected;
@@ -38,9 +39,17 @@ public class Map extends Scene<MapAsset> {
         biomass = new Technology(SceneType.BIOMASS, 220, 780, 256, 256, getTexture(MapAsset.BIOMASS),
                 new Panel(500, 720, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
 
+        PanelDetails solarPanel = new PanelDetails(
+                Text.get("map.infopanel.solar.title"),
+                Text.get("map.infopanel.solar.description"),
+                Text.get("map.infopanel.start"));
+        solar = new Technology(SceneType.SOLAR, 1000, 780, 256, 256, getTexture(MapAsset.SOLAR),
+                new Panel(1350, 720, 512, 320, getTexture(MapAsset.PANEL), solarPanel));
+
         wind.navigation.setUp(biomass.navigation);
         biomass.navigation.setDown(wind.navigation);
-
+        biomass.navigation.setRight(solar.navigation);
+        solar.navigation.setLeft(biomass.navigation);
 
         selected = wind;
         selected.setSelected(true);
@@ -83,6 +92,7 @@ public class Map extends Scene<MapAsset> {
 
         wind.render(renderer);
         biomass.render(renderer);
+        solar.render(renderer);
     }
 
     private void updateSelected(Technology nextTechnology) {
