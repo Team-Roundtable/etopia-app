@@ -16,11 +16,11 @@ public class Power extends Entity {
     private final float indicatorY = ETopia.WORLD_HEIGHT - BAR_HEIGHT + INDICATOR_WIDTH / 2;
     private final Texture progress;
     private final Texture indicator;
-    private float indicatorX = ETopia.WORLD_WIDTH / 1.5f - BAR_WIDTH / 2.0f + INDICATOR_WIDTH / 2;
+    private float indicatorX = ETopia.WORLD_WIDTH / 2.0f - BAR_WIDTH / 2.0f + INDICATOR_WIDTH / 2;
     private float level = 0.0f;
 
     public Power(Texture progress, Texture indicator) {
-        super(ETopia.WORLD_WIDTH / 1.5f - BAR_WIDTH / 2.0f, ETopia.WORLD_HEIGHT - BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
+        super(ETopia.WORLD_WIDTH / 2.0f - BAR_WIDTH / 2.0f, ETopia.WORLD_HEIGHT - BAR_HEIGHT, BAR_WIDTH, BAR_HEIGHT);
         this.progress = progress;
         this.indicator = indicator;
     }

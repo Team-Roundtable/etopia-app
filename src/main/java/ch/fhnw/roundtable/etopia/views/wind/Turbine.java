@@ -10,12 +10,14 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Turbine extends Entity {
 
-    public static final float SPEED = 200;
+    public static final float SPEED = 400;
 
     private final AnimationHelper turbine;
     private final Texture pole;
     private final float x = 100;
     private float y = ETopia.WORLD_HEIGHT / 4.0f;
+
+    private boolean frozen = false;
 
     public Turbine(Texture turbine, Texture pole) {
         super(100, ETopia.WORLD_HEIGHT / 4.0f, 64 * 3, 128 * 3);
@@ -25,8 +27,10 @@ public class Turbine extends Entity {
 
     @Override
     public void updateEntity(float delta, Input input) {
-        turbine.updateTime(delta);
-        y = Math.clamp(y + input.getVerticalInput() * (SPEED * delta), 0, ETopia.WORLD_HEIGHT - height);
+        if (!frozen) {
+            turbine.updateTime(delta);
+            y = Math.clamp(y + input.getVerticalInput() * (SPEED * delta), 0, ETopia.WORLD_HEIGHT - height);
+        }
     }
 
     @Override
@@ -39,5 +43,9 @@ public class Turbine extends Entity {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
+    }
+
+    public void setFrozen(boolean freeze){
+        this.frozen = freeze;
     }
 }
