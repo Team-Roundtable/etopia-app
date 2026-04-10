@@ -2,12 +2,21 @@ image: maven:3.9.14-eclipse-temurin-25-alpine
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH
+    # If it's a merge request, run the MR pipeline
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+    # If it's a push to a branch, but there is an open MR for this branch,
+    # DON'T run a second pipeline.
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+
+    # Otherwise, run for pushes to branches (like main)
+    - if: '$CI_COMMIT_BRANCH'
 
 stages:
-  - validate
-  - test
+  - verify
+  - site
+  - pages
   - build
 
 variables:
@@ -18,21 +27,51 @@ cache:
     - .m2/repository
 
 before_script:
+  - mvn -B dependency:go-offline
   - mvn -v
 
-# --- Validate (Checkstyle) ---
-checkstyle:
-  stage: validate
+# --- validate (style, coverage, complexity) ---
+verify:
+  stage: verify
   script:
-    - mvn validate
+    - mvn -B verify
+  artifacts:
+    when: always
+    paths:
+      - target/*
+    reports:
+      junit: target/surefire-reports/TEST-*.xml
+    expire_in: 30 mins
 
-# --- Test ---
-test:
-  stage: test
+# --- site ---
+site:
+  stage: site
+  needs:
+    - job: verify
+      artifacts: true
   script:
-    - mvn test
+    - mvn -B site
+  artifacts:
+    when: always
+    paths:
+      - target/site
+    expire_in: 30 mins
+  when: always
 
-# --- Build JAR (only on main merges) ---
+# --- pages ---
+pages:
+  stage: pages
+  needs:
+    - job: site
+      artifacts: true
+  script:
+    - mv target/site public
+  artifacts:
+    paths:
+      - public
+  when: always
+
+# --- build (only on main merges) ---
 build:
   stage: build
   script:
@@ -40,6 +79,5 @@ build:
   artifacts:
     paths:
       - target/*.jar
-    expire_in: 1 week
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'

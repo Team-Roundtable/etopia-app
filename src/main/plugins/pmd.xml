@@ -1,0 +1,33 @@
+<ruleset name="E-Topia Rules">
+
+    <description>E-Topia static analysis</description>
+
+    <rule ref="category/java/design.xml/CyclomaticComplexity">
+        <properties>
+            <property name="methodReportLevel" value="30"/>
+            <property name="classReportLevel" value="50"/>
+        </properties>
+    </rule>
+
+    <rule ref="category/java/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="threshold" value="20"/>
+        </properties>
+    </rule>
+
+    <!-- Design -->
+    <rule ref="category/java/design.xml/GodClass"/>
+    <rule ref="category/java/design.xml/TooManyMethods"/>
+    <rule ref="category/java/design.xml/NPathComplexity"/>
+
+    <!-- Bugs -->
+    <rule ref="category/java/errorprone.xml"/>
+
+    <!-- Best practices -->
+    <rule ref="category/java/bestpractices.xml"/>
+    <rule ref="category/java/bestpractices.xml/GuardLogStatement">
+        <properties>
+            <property name="logLevels" value="trace,debug,log,finest,finer,fine" />
+        </properties>
+    </rule>
+</ruleset>

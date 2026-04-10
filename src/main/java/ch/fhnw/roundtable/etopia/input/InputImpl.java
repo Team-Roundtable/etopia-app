@@ -2,69 +2,29 @@ package ch.fhnw.roundtable.etopia.input;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.pi4j.Pi4J;
-import com.pi4j.context.Context;
-import com.pi4j.io.gpio.digital.DigitalInput;
-import com.pi4j.io.gpio.digital.PullResistance;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // todo rename, debounce?
 public class InputImpl implements Input {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(InputImpl.class);
-
     // todo light up button
-    private boolean isUpPressed = false;
-    private boolean isDownPressed = false;
-    private boolean isLeftPressed = false;
-    private boolean isRightPressed = false;
-    private boolean isSelectPressed = false;
-    private boolean isBackPressed = false;
-    private boolean isUpJustPressed = false;
-    private boolean isDownJustPressed = false;
-    private boolean isLeftJustPressed = false;
-    private boolean isRightJustPressed = false;
-    private boolean isSelectJustPressed = false;
-    private boolean isBackJustPressed = false;
-    private boolean isUpJustReleased = false;
-    private boolean isDownJustReleased = false;
-    private boolean isLeftJustReleased = false;
-    private boolean isRightJustReleased = false;
-    private boolean isSelectJustReleased = false;
-    private boolean isBackJustReleased = false;
-
-    private Context pi4j;
-    private DigitalInput buttonUp;
-    private DigitalInput buttonDown;
-    private DigitalInput buttonLeft;
-    private DigitalInput buttonRight;
-    private DigitalInput buttonSelect;
-    private DigitalInput buttonBack;
-
-
-    public InputImpl() {
-        try {
-            pi4j = Pi4J.newAutoContext();
-
-            // todo magic values
-            buttonUp = pi4j.create(DigitalInput.newConfigBuilder(pi4j)
-                    .id("BTN_UP")
-                    .name("BUTTON_UP")
-                    .address(23)
-                    .pull(PullResistance.PULL_DOWN)
-                    .debounce(3000L));
-
-            // todo repeat
-
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                pi4j.shutdown();
-            }));
-
-        } catch (Exception e) {
-            LOGGER.warn("Pi4J could not initialize: {}", e.getMessage());
-        }
-    }
+    private boolean upPressed = false;
+    private boolean downPressed = false;
+    private boolean leftPressed = false;
+    private boolean rightPressed = false;
+    private boolean selectPressed = false;
+    private boolean backPressed = false;
+    private boolean upJustPressed = false;
+    private boolean downJustPressed = false;
+    private boolean leftJustPressed = false;
+    private boolean rightJustPressed = false;
+    private boolean selectJustPressed = false;
+    private boolean backJustPressed = false;
+    private boolean upJustReleased = false;
+    private boolean downJustReleased = false;
+    private boolean leftJustReleased = false;
+    private boolean rightJustReleased = false;
+    private boolean selectJustReleased = false;
+    private boolean backJustReleased = false;
 
     public void update() {
         // TODO get lightupbutton state with (buttonUp != null && buttonUp.isHigh())
@@ -75,119 +35,147 @@ public class InputImpl implements Input {
         boolean newSelect = (Gdx.input.isKeyPressed(Keys.SPACE) || Gdx.input.isKeyPressed(Keys.ENTER));
         boolean newBack = (Gdx.input.isKeyPressed(Keys.BACKSPACE) || Gdx.input.isKeyPressed(Keys.ESCAPE));
 
-        isUpJustPressed = !isUpPressed && newUp;
-        isDownJustPressed = !isDownPressed && newDown;
-        isLeftJustPressed = !isLeftPressed && newLeft;
-        isRightJustPressed = !isRightPressed && newRight;
-        isSelectJustPressed = !isSelectPressed && newSelect;
-        isBackJustPressed = !isBackPressed && newBack;
-
-        isUpJustReleased = isUpPressed && !newUp;
-        isDownJustReleased = isDownPressed && !newDown;
-        isLeftJustReleased = isLeftPressed && !newLeft;
-        isRightJustReleased = isRightPressed && !newRight;
-        isSelectJustReleased = isSelectPressed && !newSelect;
-        isBackJustReleased = isBackPressed && !newBack;
-
-        isUpPressed = newUp;
-        isDownPressed = newDown;
-        isLeftPressed = newLeft;
-        isRightPressed = newRight;
-        isSelectPressed = newSelect;
-        isBackPressed = newBack;
+        updateUp(newUp);
+        updateDown(newDown);
+        updateLeft(newLeft);
+        updateRight(newRight);
+        updateSelect(newSelect);
+        updateBack(newBack);
     }
 
+    private void updateUp(boolean newUp) {
+        upJustPressed = !upPressed && newUp;
+        upJustReleased = upPressed && !newUp;
+        upPressed = newUp;
+    }
+
+    private void updateDown(boolean newDown) {
+        downJustPressed = !downPressed && newDown;
+        downJustReleased = downPressed && !newDown;
+        downPressed = newDown;
+    }
+
+    private void updateLeft(boolean newLeft) {
+        leftJustPressed = !leftPressed && newLeft;
+        leftJustReleased = leftPressed && !newLeft;
+        leftPressed = newLeft;
+    }
+
+    private void updateRight(boolean newRight) {
+        rightJustPressed = !rightPressed && newRight;
+        rightJustReleased = rightPressed && !newRight;
+        rightPressed = newRight;
+    }
+
+    private void updateSelect(boolean newSelect) {
+        selectJustPressed = !selectPressed && newSelect;
+        selectJustReleased = selectPressed && !newSelect;
+        selectPressed = newSelect;
+    }
+
+    private void updateBack(boolean newBack) {
+        backJustPressed = !backPressed && newBack;
+        backJustReleased = backPressed && !newBack;
+        backPressed = newBack;
+    }
+
+    @Override
     public boolean isUpPressed() {
-        return isUpPressed;
+        return upPressed;
     }
 
+    @Override
     public boolean isDownPressed() {
-        return isDownPressed;
+        return downPressed;
     }
 
+    @Override
     public boolean isLeftPressed() {
-        return isLeftPressed;
+        return leftPressed;
     }
 
+    @Override
     public boolean isRightPressed() {
-        return isRightPressed;
+        return rightPressed;
     }
 
+    @Override
     public boolean isSelectPressed() {
-        return isSelectPressed;
+        return selectPressed;
     }
 
+    @Override
     public boolean isBackPressed() {
-        return isBackPressed;
+        return backPressed;
     }
 
     @Override
     public boolean isUpJustPressed() {
-        return isUpJustPressed;
+        return upJustPressed;
     }
 
     @Override
     public boolean isDownJustPressed() {
-        return isDownJustPressed;
+        return downJustPressed;
     }
 
     @Override
     public boolean isLeftJustPressed() {
-        return isLeftJustPressed;
+        return leftJustPressed;
     }
 
     @Override
     public boolean isRightJustPressed() {
-        return isRightJustPressed;
+        return rightJustPressed;
     }
 
     @Override
     public boolean isSelectJustPressed() {
-        return isSelectJustPressed;
+        return selectJustPressed;
     }
 
     @Override
     public boolean isBackJustPressed() {
-        return isBackJustPressed;
+        return backJustPressed;
     }
 
     @Override
     public boolean isUpJustReleased() {
-        return isUpJustReleased;
+        return upJustReleased;
     }
 
     @Override
     public boolean isDownJustReleased() {
-        return isDownJustReleased;
+        return downJustReleased;
     }
 
     @Override
     public boolean isLeftJustReleased() {
-        return isLeftJustReleased;
+        return leftJustReleased;
     }
 
     @Override
     public boolean isRightJustReleased() {
-        return isRightJustReleased;
+        return rightJustReleased;
     }
 
     @Override
     public boolean isSelectJustReleased() {
-        return isSelectJustReleased;
+        return selectJustReleased;
     }
 
     @Override
     public boolean isBackJustReleased() {
-        return isBackJustReleased;
+        return backJustReleased;
     }
 
     @Override
     public float getHorizontalInput() {
-        return (isLeftPressed ? -1 : 0) + (isRightPressed ? 1 : 0);
+        return (leftPressed ? -1 : 0) + (rightPressed ? 1 : 0);
     }
 
     @Override
     public float getVerticalInput() {
-        return (isDownPressed ? -1 : 0) + (isUpPressed ? 1 : 0);
+        return (downPressed ? -1 : 0) + (upPressed ? 1 : 0);
     }
 }

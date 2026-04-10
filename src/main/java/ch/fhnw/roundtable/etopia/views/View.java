@@ -9,4 +9,6 @@ public interface View {
     void render(Renderer renderer);
 
     void dispose();
+
+    ViewType next();
 }
