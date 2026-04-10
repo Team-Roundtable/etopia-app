@@ -1,130 +1,42 @@
 package ch.fhnw.roundtable.etopia.views.map;
 
-import ch.fhnw.roundtable.etopia.ETopia;
-import ch.fhnw.roundtable.etopia.config.Text;
-import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.input.Input;
-import ch.fhnw.roundtable.etopia.views.Scene;
-import ch.fhnw.roundtable.etopia.views.SceneType;
-import ch.fhnw.roundtable.etopia.views.commons.panel.Panel;
-import ch.fhnw.roundtable.etopia.views.commons.panel.PanelDetails;
-import com.badlogic.gdx.graphics.Texture;
+import ch.fhnw.roundtable.etopia.views.Assets;
+import ch.fhnw.roundtable.etopia.views.Renderer;
+import ch.fhnw.roundtable.etopia.views.View;
+import ch.fhnw.roundtable.etopia.views.ViewType;
+import ch.fhnw.roundtable.etopia.views.map.game.MapGame;
+import ch.fhnw.roundtable.etopia.views.map.ui.MapAsset;
+import ch.fhnw.roundtable.etopia.views.map.ui.MapUI;
 
-public class Map extends Scene<MapAsset> {
+public class Map implements View {
 
-    private final Technology wind;
-    private final Technology biomass;
-    private final Technology grid;
-    private final Technology solar;
-    private final Technology geothermal;
-
-    private final Texture background;
-    private Technology selected;
-    private SceneType nextScene;
+    private final MapGame mapGame;
+    private final MapUI mapUI;
 
     public Map() {
-        super(MapAsset.class);
-
-        background = getTexture(MapAsset.BACKGROUND);
-
-        PanelDetails windPanel = new PanelDetails(
-                Text.get("map.infopanel.wind.title"),
-                Text.get("map.infopanel.wind.description"),
-                Text.get("map.infopanel.start"));
-        wind = new Technology(SceneType.WIND, 140, 170, 256, 256, getTexture(MapAsset.WIND),
-                new Panel(400, 170, 512, 320, getTexture(MapAsset.PANEL), windPanel));
-
-        PanelDetails biomassPanel = new PanelDetails(
-                Text.get("map.infopanel.biomass.title"),
-                Text.get("map.infopanel.biomass.description"),
-                Text.get("map.infopanel.start"));
-        biomass = new Technology(SceneType.BIOMASS, 220, 780, 256, 256, getTexture(MapAsset.BIOMASS),
-                new Panel(300, 420, 512, 320, getTexture(MapAsset.PANEL), biomassPanel));
-
-        PanelDetails geothermalPanel = new PanelDetails(
-                Text.get("map.infopanel.geothermal.title"),
-                Text.get("map.infopanel.geothermal.description"),
-                Text.get("map.infopanel.start"));
-        geothermal = new Technology(SceneType.GEOTHERMAL, 1400, 170, 256, 256, getTexture(MapAsset.DRILL),
-                new Panel(888, 170, 512, 320, getTexture(MapAsset.PANEL), geothermalPanel));
-
-        PanelDetails solarPanel = new PanelDetails(
-                Text.get("map.infopanel.solar.title"),
-                Text.get("map.infopanel.solar.description"),
-                Text.get("map.infopanel.start"));
-        solar = new Technology(SceneType.SOLAR, 1000, 780, 256, 256, getTexture(MapAsset.SOLAR),
-                new Panel(1350, 720, 512, 320, getTexture(MapAsset.PANEL), solarPanel));
-
-        PanelDetails gridPanel = new PanelDetails(
-                Text.get("map.infopanel.biomass.title"),
-                Text.get("map.infopanel.biomass.description"),
-                Text.get("map.infopanel.start"));
-        grid = new Technology(SceneType.GRID, 820, 480, 256, 256, getTexture(MapAsset.CITY),
-                new Panel(600, 720, 512, 320, getTexture(MapAsset.PANEL), gridPanel));
-
-        wind.navigation.setUp(biomass.navigation);
-        wind.navigation.setRight(geothermal.navigation);
-        biomass.navigation.setDown(wind.navigation);
-        biomass.navigation.setRight(solar.navigation);
-        solar.navigation.setLeft(biomass.navigation);
-        solar.navigation.setDown(grid.navigation);
-        grid.navigation.setUp(solar.navigation);
-        geothermal.navigation.setLeft(wind.navigation);
-
-        selected = wind;
-        selected.setSelected(true);
+        var mapConfiguration = new MapConfiguration();
+        this.mapGame = new MapGame(mapConfiguration);
+        this.mapUI = new MapUI(new Assets<>(MapAsset.class));
     }
 
     @Override
-    public void updateScene(float delta, Input input) {
-        if (input.isUpJustPressed()) {
-            if (selected.navigation.getUp() != null) {
-                updateSelected(selected.navigation.getUp().getElement());
-            }
-        }
-        if (input.isDownJustPressed()) {
-            if (selected.navigation.getDown() != null) {
-                updateSelected(selected.navigation.getDown().getElement());
-            }
-        }
-        if (input.isRightJustPressed()) {
-            if (selected.navigation.getRight() != null) {
-                updateSelected(selected.navigation.getRight().getElement());
-            }
-        }
-        if (input.isLeftJustPressed()) {
-            if (selected.navigation.getLeft() != null) {
-                updateSelected(selected.navigation.getLeft().getElement());
-            }
-        }
-
-        if (input.isSelectJustPressed()) {
-            nextScene = selected.getView();
-        }
+    public void update(float delta, Input input) {
+        mapGame.update(delta, input);
     }
 
     @Override
-    public void renderScene(Renderer renderer) {
-        renderer.batch(batch -> {
-            batch.draw(background, 0, 0, ETopia.WORLD_WIDTH, ETopia.WORLD_HEIGHT);
-            renderer.font.draw(batch, Text.get("map.infotext"), 0, 32);
-        });
-
-        wind.render(renderer);
-        biomass.render(renderer);
-        geothermal.render(renderer);
-        grid.render(renderer);
-        solar.render(renderer);
-    }
-
-    private void updateSelected(Technology nextTechnology) {
-        selected.setSelected(false);
-        selected = nextTechnology;
-        selected.setSelected(true);
+    public void render(Renderer renderer) {
+        mapUI.render(mapGame, renderer);
     }
 
     @Override
-    public SceneType change() {
-        return nextScene;
+    public void dispose() {
+        mapUI.dispose();
+    }
+
+    @Override
+    public ViewType next() {
+        return mapGame.next();
     }
 }

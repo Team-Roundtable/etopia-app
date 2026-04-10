@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.8.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.8.0 http://maven.apache.org/xsd/decoration-1.8.0.xsd"
+         name="E-Topia">
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>2.0.0-M11</version>
+    </skin>
+
+    <body>
+        <menu name="Project Info">
+            <item name="About" href="index.html"/>
+            <item name="Summary" href="summary.html"/>
+            <item name="Dependencies" href="dependencies.html"/>
+        </menu>
+
+        <menu name="Quality Reports">
+            <item name="Style Check" href="checkstyle.html"/>
+            <item name="Duplicated Code" href="cpd.html"/>
+            <item name="Code Complexity" href="pmd.html"/>
+            <item name="Test Coverage" href="jacoco/index.html"/>
+        </menu>
+    </body>
+</project>
