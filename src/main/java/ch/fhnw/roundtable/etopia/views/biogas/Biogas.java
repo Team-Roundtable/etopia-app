@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.biogas;
 
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -24,7 +25,9 @@ public class Biogas implements View {
     private final HealthUI healthUI;
     private final EnergyUI energyUI;
 
-    public Biogas() {
+    public Biogas(LEDControl ledControl) {
+        ledControl.ledAllPlayableOn();
+
         var biogasConfiguration = new BiogasConfiguration();
         var healthConfiguration = new HealthConfiguration();
         var energyConfiguration = new EnergyConfiguration();

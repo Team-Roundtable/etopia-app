@@ -28,9 +28,10 @@ public class GeothermalUI implements UI<GeothermalGame> {
             batch.draw(assets.getTexture(GeothermalAsset.BACKGROUND), 0, 0, map.width(), map.height());
 
             for (Rock rock : game.getRocks()) {
-                batch.draw(assets.getTexture(GeothermalAsset.ROCK),
+                batch.drawCentered(assets.getTexture(GeothermalAsset.ROCK),
                         rock.getX(), rock.getY(),
-                        rock.getWidth(), rock.getHeight());
+                        rock.getWidth(), rock.getHeight(),
+                        0);
             }
 
             for (PipeSegment pipeSegment : game.getDownPipe()) {

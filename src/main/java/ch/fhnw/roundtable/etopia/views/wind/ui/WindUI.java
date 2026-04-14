@@ -22,8 +22,8 @@ public class WindUI implements UI<WindGame> {
             var turbine = game.getTurbine();
             // todo move magic values to config
             batch.draw(assets.getTexture(WindAsset.POLE),
-                    turbine.getX() + 40, turbine.getY() - 860,
-                    16, 1000);
+                    turbine.getX() + 40, turbine.getY() - 1860,
+                    16, 2000);
             batch.draw(assets.getTexture(WindAsset.TURBINE),
                     turbine.getX(), turbine.getY(),
                     turbine.getWidth(), turbine.getHeight());

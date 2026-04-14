@@ -2,6 +2,7 @@ package ch.fhnw.roundtable.etopia.views.information;
 
 import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -16,7 +17,10 @@ public class Information implements View {
     private final InformationGame informationGame;
     private final InformationUI informationUI;
 
-    public Information(Configuration configuration, InformationType informationType) {
+    public Information(Configuration configuration, InformationType informationType, LEDControl ledControl) {
+        ledControl.ledAllPlayableOff();
+        ledControl.ledSelectOn();
+
         var informationConfiguration = new InformationConfiguration();
 
         informationGame = new InformationGame(configuration, informationType);

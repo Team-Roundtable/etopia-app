@@ -2,6 +2,7 @@ package ch.fhnw.roundtable.etopia.views.wind;
 
 import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -28,7 +29,11 @@ public class Wind implements View {
     private final ClockUI clockUI;
     private final EnergyUI energyUI;
 
-    public Wind(Configuration configuration) {
+    public Wind(Configuration configuration, LEDControl ledControl) {
+        ledControl.ledAllPlayableOff();
+        ledControl.ledUpOn();
+        ledControl.ledDownOn();
+
         var windConfiguration = new WindConfiguration();
         var healthConfiguration = new HealthConfiguration();
         var clockConfiguration = new ClockConfiguration();

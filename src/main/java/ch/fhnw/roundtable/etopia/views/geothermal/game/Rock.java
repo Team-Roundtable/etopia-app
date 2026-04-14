@@ -15,8 +15,7 @@ public class Rock {
         this.size = size;
         this.x = x;
         this.y = y;
-        // todo wrong calculation
-        this.bounds = new Circle(x, y, size.width() / 6);
+        this.bounds = new Circle(x, y, size.width() / 2);
     }
 
     public boolean intersects(Circle circle) {

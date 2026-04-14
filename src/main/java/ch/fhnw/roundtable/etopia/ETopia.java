@@ -2,6 +2,7 @@ package ch.fhnw.roundtable.etopia;
 
 import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import ch.fhnw.roundtable.etopia.input.InputImpl;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
 import ch.fhnw.roundtable.etopia.views.ViewType;
@@ -17,15 +18,21 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.pi4j.Pi4J;
+import com.pi4j.context.Context;
+import com.pi4j.plugin.gpiod.provider.gpio.digital.GpioDDigitalInputProvider;
+import com.pi4j.plugin.gpiod.provider.gpio.digital.GpioDDigitalOutputProvider;
+import com.pi4j.plugin.linuxfs.provider.i2c.LinuxFsI2CProvider;
 
 public class ETopia implements ApplicationListener {
 
     public static final int WORLD_WIDTH = 1920;
     public static final int WORLD_HEIGHT = 1080;
-
     private final Configuration configuration;
+    private Context pi4j;
     private Renderer renderer;
     private InputImpl input;
+    private LEDControl ledControl;
     private ViewType currentViewType;
     private View currentView;
 
@@ -36,11 +43,23 @@ public class ETopia implements ApplicationListener {
 
     @Override
     public void create() {
+        pi4j = Pi4J.newContextBuilder()
+                .add(GpioDDigitalInputProvider.newInstance())
+                .add(GpioDDigitalOutputProvider.newInstance())
+                .add(LinuxFsI2CProvider.newInstance())
+                .build();
         renderer = new Renderer();
-        input = new InputImpl();
+        input = new InputImpl(pi4j);
+        ledControl = new LEDControl(pi4j);
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored) {
+        }
+        ledControl.ledBackOn();
 
         currentViewType = ViewType.MAP;
-        currentView = new Map();
+        currentView = new Map(ledControl);
     }
 
     @Override
@@ -70,35 +89,36 @@ public class ETopia implements ApplicationListener {
 
         currentViewType = next;
         currentView = switch (currentViewType) {
-            case MAP -> new Map();
-            case INFORMATION -> new Information(configuration, InformationType.INFORMATION);
-            case SETTINGS -> new Map();
+            case MAP -> new Map(ledControl);
+            case INFORMATION -> new Information(configuration, InformationType.INFORMATION, ledControl);
+            case SETTINGS -> new Map(ledControl);
 
-            case BIOGAS -> new Biogas();
-            case BIOGAS_START -> new Information(configuration, InformationType.BIOGAS_START);
-            case BIOGAS_SUCCESS -> new Information(configuration, InformationType.BIOGAS_SUCCESS);
-            case BIOGAS_FAIL_HEALTH -> new Information(configuration, InformationType.BIOGAS_FAIL_HEALTH);
+            case BIOGAS -> new Biogas(ledControl);
+            case BIOGAS_START -> new Information(configuration, InformationType.BIOGAS_START, ledControl);
+            case BIOGAS_SUCCESS -> new Information(configuration, InformationType.BIOGAS_SUCCESS, ledControl);
+            case BIOGAS_FAIL_HEALTH -> new Information(configuration, InformationType.BIOGAS_FAIL_HEALTH, ledControl);
 
-            case WIND -> new Wind(configuration);
-            case WIND_START -> new Information(configuration, InformationType.WIND_START);
-            case WIND_SUCCESS -> new Information(configuration, InformationType.WIND_SUCCESS);
-            case WIND_FAIL_HEALTH -> new Information(configuration, InformationType.WIND_FAIL_HEALTH);
-            case WIND_FAIL_CLOCK -> new Information(configuration, InformationType.WIND_FAIL_CLOCK);
+            case WIND -> new Wind(configuration, ledControl);
+            case WIND_START -> new Information(configuration, InformationType.WIND_START, ledControl);
+            case WIND_SUCCESS -> new Information(configuration, InformationType.WIND_SUCCESS, ledControl);
+            case WIND_FAIL_HEALTH -> new Information(configuration, InformationType.WIND_FAIL_HEALTH, ledControl);
+            case WIND_FAIL_CLOCK -> new Information(configuration, InformationType.WIND_FAIL_CLOCK, ledControl);
 
-            case GEOTHERMAL -> new Geothermal();
-            case GEOTHERMAL_START -> new Information(configuration, InformationType.GEOTHERMAL_START);
-            case GEOTHERMAL_SUCCESS -> new Information(configuration, InformationType.GEOTHERMAL_SUCCESS);
-            case GEOTHERMAL_FAIL_HEALTH -> new Information(configuration, InformationType.GEOTHERMAL_FAIL_HEALTH);
+            case GEOTHERMAL -> new Geothermal(ledControl);
+            case GEOTHERMAL_START -> new Information(configuration, InformationType.GEOTHERMAL_START, ledControl);
+            case GEOTHERMAL_SUCCESS -> new Information(configuration, InformationType.GEOTHERMAL_SUCCESS, ledControl);
+            case GEOTHERMAL_FAIL_HEALTH ->
+                    new Information(configuration, InformationType.GEOTHERMAL_FAIL_HEALTH, ledControl);
 
-            case SOLAR -> new Solar();
-            case SOLAR_START -> new Information(configuration, InformationType.SOLAR_START);
-            case SOLAR_SUCCESS -> new Information(configuration, InformationType.SOLAR_SUCCESS);
-            case SOLAR_FAIL_CLOCK -> new Information(configuration, InformationType.SOLAR_FAIL_CLOCK);
+            case SOLAR -> new Solar(ledControl);
+            case SOLAR_START -> new Information(configuration, InformationType.SOLAR_START, ledControl);
+            case SOLAR_SUCCESS -> new Information(configuration, InformationType.SOLAR_SUCCESS, ledControl);
+            case SOLAR_FAIL_CLOCK -> new Information(configuration, InformationType.SOLAR_FAIL_CLOCK, ledControl);
 
-            case GRID -> new Grid();
-            case GRID_START -> new Information(configuration, InformationType.GRID_START);
-            case GRID_SUCCESS -> new Information(configuration, InformationType.GRID_SUCCESS);
-            case GRID_FAIL_CLOCK -> new Information(configuration, InformationType.GRID_FAIL_CLOCK);
+            case GRID -> new Grid(ledControl);
+            case GRID_START -> new Information(configuration, InformationType.GRID_START, ledControl);
+            case GRID_SUCCESS -> new Information(configuration, InformationType.GRID_SUCCESS, ledControl);
+            case GRID_FAIL_CLOCK -> new Information(configuration, InformationType.GRID_FAIL_CLOCK, ledControl);
         };
     }
 

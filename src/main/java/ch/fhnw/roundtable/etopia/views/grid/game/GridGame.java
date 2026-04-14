@@ -20,7 +20,7 @@ public class GridGame implements Game {
         this.gridConfiguration = gridConfiguration;
         this.cursor = new Cursor(gridConfiguration, 10, 10);
         this.pipes = new Pipes(gridConfiguration);
-        this.clockGame = new ClockGame(30);
+        this.clockGame = new ClockGame(60);
     }
 
     @Override

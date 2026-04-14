@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.geothermal;
 
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -20,7 +21,11 @@ public class Geothermal implements View {
     private final GeothermalUI geothermalUI;
     private final HealthUI healthUI;
 
-    public Geothermal() {
+    public Geothermal(LEDControl ledControl) {
+        ledControl.ledAllPlayableOff();
+        ledControl.ledLeftOn();
+        ledControl.ledRightOn();
+
         var geothermalConfiguration = new GeothermalConfiguration();
         var healthConfiguration = new HealthConfiguration();
 
