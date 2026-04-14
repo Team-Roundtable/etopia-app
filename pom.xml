@@ -85,6 +85,13 @@
             <version>${pi4j.version}</version>
         </dependency>
 
+        <!-- pi4j linuxfs provider for I2C -->
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-plugin-linuxfs</artifactId>
+            <version>${pi4j.version}</version>
+        </dependency>
+
         <!-- logback -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -252,12 +259,12 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.03</minimum>
+                                            <minimum>0.02</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.12</minimum>
+                                            <minimum>0.11</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

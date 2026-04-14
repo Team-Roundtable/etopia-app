@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.grid;
 
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -17,7 +18,9 @@ public class Grid implements View {
     private final GridUI gridUI;
     private final ClockUI clockUI;
 
-    public Grid() {
+    public Grid(LEDControl ledControl) {
+        ledControl.ledAllPlayableOn();
+
         var gridConfiguration = new GridConfiguration();
         var clockConfiguration = new ClockConfiguration();
         this.gridGame = new GridGame(gridConfiguration);

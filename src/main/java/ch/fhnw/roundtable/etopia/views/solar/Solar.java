@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.solar;
 
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -21,7 +22,11 @@ public class Solar implements View {
     private final ClockUI clockUI;
     private final EnergyUI energyUI;
 
-    public Solar() {
+    public Solar(LEDControl ledControl) {
+        ledControl.ledAllPlayableOff();
+        ledControl.ledLeftOn();
+        ledControl.ledRightOn();
+
         var solarConfiguration = new SolarConfiguration();
         var clockConfiguration = new ClockConfiguration();
         var energyConfiguration = new EnergyConfiguration();

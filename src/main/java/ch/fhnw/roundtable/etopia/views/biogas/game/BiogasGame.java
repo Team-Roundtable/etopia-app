@@ -18,7 +18,7 @@ public class BiogasGame implements Game {
     private final BiogasConfiguration biogasConfiguration;
     private final Cursor cursor;
     private final Trash[][] conveyor;
-    private final Timer trashTimer = new Timer(0.7f);
+    private final Timer trashTimer = new Timer(0.5f);
     private final HealthGame healthGame;
     private final EnergyGame energyGame;
 

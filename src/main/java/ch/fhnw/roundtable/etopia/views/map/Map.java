@@ -1,6 +1,7 @@
 package ch.fhnw.roundtable.etopia.views.map;
 
 import ch.fhnw.roundtable.etopia.input.Input;
+import ch.fhnw.roundtable.etopia.input.LEDControl;
 import ch.fhnw.roundtable.etopia.views.Assets;
 import ch.fhnw.roundtable.etopia.views.Renderer;
 import ch.fhnw.roundtable.etopia.views.View;
@@ -14,7 +15,9 @@ public class Map implements View {
     private final MapGame mapGame;
     private final MapUI mapUI;
 
-    public Map() {
+    public Map(LEDControl ledControl) {
+        ledControl.ledAllPlayableOn();
+
         var mapConfiguration = new MapConfiguration();
         this.mapGame = new MapGame(mapConfiguration);
         this.mapUI = new MapUI(new Assets<>(MapAsset.class));
