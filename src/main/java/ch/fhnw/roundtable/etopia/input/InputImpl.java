@@ -18,7 +18,7 @@ public class InputImpl implements Input {
     private static final int LEFT_BUTTON_GPIO_PIN = 27;
     private static final int RIGHT_BUTTON_GPIO_PIN = 22;
     private static final int SELECT_BUTTON_GPIO_PIN = 17;
-    private static final int BACK_BUTTON_GPIO_PIN = 18;
+    private static final int BACK_BUTTON_GPIO_PIN = 25;
     private static final long DEBOUNCE_TIME = 3000; //microseconds
 
     private Context pi4j;
