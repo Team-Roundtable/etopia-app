@@ -1,52 +1,67 @@
 package ch.fhnw.roundtable.etopia.views.grid;
 
-import ch.fhnw.roundtable.etopia.input.Input;
-import ch.fhnw.roundtable.etopia.input.LEDControl;
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.View;
-import ch.fhnw.roundtable.etopia.views.ViewType;
-import ch.fhnw.roundtable.etopia.views.clock.ClockConfiguration;
-import ch.fhnw.roundtable.etopia.views.clock.ui.ClockUI;
-import ch.fhnw.roundtable.etopia.views.grid.game.GridGame;
+import ch.fhnw.roundtable.etopia.Transition;
+import ch.fhnw.roundtable.etopia.View;
+import ch.fhnw.roundtable.etopia.configuration.Configuration;
+import ch.fhnw.roundtable.etopia.input.Controls;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.grid.model.GridModel;
 import ch.fhnw.roundtable.etopia.views.grid.ui.GridAsset;
 import ch.fhnw.roundtable.etopia.views.grid.ui.GridUI;
+import ch.fhnw.roundtable.etopia.views.information.Information;
+import ch.fhnw.roundtable.etopia.views.information.model.InformationType;
+import ch.fhnw.roundtable.etopia.views.map.Map;
+import ch.fhnw.roundtable.etopia.views.status.model.StatusModel;
+import ch.fhnw.roundtable.etopia.views.status.ui.StatusAsset;
+import ch.fhnw.roundtable.etopia.views.status.ui.StatusUI;
 
 public class Grid implements View {
 
-    private final GridGame gridGame;
+    private final Configuration configuration;
+    private final StatusModel statusModel;
+    private final GridModel gridModel;
+    private final StatusUI statusUI;
     private final GridUI gridUI;
-    private final ClockUI clockUI;
 
-    public Grid(LEDControl ledControl) {
-        ledControl.ledAllPlayableOn();
-
-        var gridConfiguration = new GridConfiguration();
-        var clockConfiguration = new ClockConfiguration();
-        this.gridGame = new GridGame(gridConfiguration);
-        this.gridUI = new GridUI(gridConfiguration, new Assets<>(GridAsset.class));
-        this.clockUI = new ClockUI(clockConfiguration);
+    public Grid(Configuration configuration) {
+        this.configuration = configuration;
+        this.statusModel = new StatusModel(configuration, configuration.grid().gameDuration());
+        this.gridModel = new GridModel(configuration, statusModel);
+        this.statusUI = new StatusUI(configuration, new Assets<>(StatusAsset.class));
+        this.gridUI = new GridUI(new Assets<>(GridAsset.class));
     }
 
     @Override
-    public void update(float delta, Input input) {
-        gridGame.update(delta, input);
+    public void update(float delta, Controls controls) {
+        gridModel.update(delta, controls);
     }
 
     @Override
     public void render(Renderer renderer) {
-        gridUI.render(gridGame, renderer);
-        clockUI.render(gridGame.getClockGame(), renderer);
+        gridUI.render(gridModel.state(), renderer);
+        statusUI.render(statusModel.state(), renderer);
     }
 
     @Override
     public void dispose() {
         gridUI.dispose();
-        clockUI.dispose();
+        statusUI.dispose();
     }
 
     @Override
-    public ViewType next() {
-        return gridGame.next();
+    public Transition transition() {
+        var result = gridModel.result();
+        configuration.state().updateGrid(result);
+
+        return switch (result) {
+            case RUNNING, FAIL_HEALTH -> Transition.none();
+            case SUCCESS -> Transition.change(
+                    () -> new Information(configuration, InformationType.GRID_SUCCESS,
+                            () -> new Map(configuration)));
+            case FAIL_TIME -> Transition.change(
+                    () -> new Information(configuration, InformationType.GRID_FAIL_TIME,
+                            () -> new Map(configuration)));
+        };
     }
 }

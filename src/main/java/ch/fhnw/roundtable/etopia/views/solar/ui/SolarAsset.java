@@ -1,15 +1,12 @@
 package ch.fhnw.roundtable.etopia.views.solar.ui;
 
-import ch.fhnw.roundtable.etopia.views.Asset;
+import ch.fhnw.roundtable.etopia.rendering.Asset;
 
 public enum SolarAsset implements Asset {
     SUN("assets/solar/sun.png"),
     PANEL("assets/solar/panel.png"),
-    STAND("assets/solar/panelStand.png"),
-    POWER_BAR("assets/solar/power-bar.png"),
-    POWER_INDICATOR("assets/solar/power-indicator.png"),
-    DIRT("assets/solar/dirt.png"),
-    BACKGROUND("assets/solar/simpleBackground.png");
+    STAND("assets/solar/stand.png"),
+    BACKGROUND("assets/solar/background.png");
 
     private final String path;
 

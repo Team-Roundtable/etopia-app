@@ -1,55 +1,38 @@
 package ch.fhnw.roundtable.etopia.views.biogas.ui;
 
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.UI;
-import ch.fhnw.roundtable.etopia.views.biogas.BiogasConfiguration;
-import ch.fhnw.roundtable.etopia.views.biogas.game.BiogasGame;
-import ch.fhnw.roundtable.etopia.views.biogas.game.Trash;
+import ch.fhnw.roundtable.etopia.UI;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.biogas.model.TrashType;
+import ch.fhnw.roundtable.etopia.views.biogas.state.BiogasState;
 
-public class BiogasUI implements UI<BiogasGame> {
+public class BiogasUI implements UI<BiogasState> {
 
-    private final BiogasConfiguration biogasConfiguration;
     private final Assets<BiogasAsset> assets;
 
-    public BiogasUI(BiogasConfiguration biogasConfiguration, Assets<BiogasAsset> assets) {
-        this.biogasConfiguration = biogasConfiguration;
+    public BiogasUI(Assets<BiogasAsset> assets) {
         this.assets = assets;
     }
 
     @Override
-    public void render(BiogasGame game, Renderer renderer) {
+    public void render(BiogasState state, Renderer renderer) {
         renderer.batch(batch -> {
             batch.drawBackground(assets.getTexture(BiogasAsset.BACKGROUND));
 
-            var conveyorOffsetX = biogasConfiguration.conveyorOffsetX;
-            var conveyorOffsetY = biogasConfiguration.conveyorOffsetY;
-            var conveyorSize = biogasConfiguration.conveyorSize;
-
-            for (int i = 0; i < biogasConfiguration.conveyorHeight; i++) {
-                batch.draw(assets.getTexture(BiogasAsset.CONVEYOR_BELT),
-                        conveyorOffsetX, conveyorOffsetY + conveyorSize.height() * i,
-                        conveyorSize.width(), conveyorSize.height());
+            for (var trash : state.trashes()) {
+                batch.draw(assets.getTexture(translate(trash.type())),
+                        trash.x(),
+                        trash.y(),
+                        trash.width(),
+                        trash.height());
             }
 
-            Trash[][] conveyor = game.getConveyor();
-            for (int x = 0; x < conveyor.length; x++) {
-                for (int y = 0; y < conveyor[x].length; y++) {
-                    var trash = conveyor[x][y];
-
-                    if (trash != null) {
-                        batch.draw(assets.getTexture(translate(trash)),
-                                conveyorOffsetX + x * trash.getWidth(), conveyorOffsetY + y * trash.getHeight(),
-                                trash.getWidth(), trash.getHeight());
-                    }
-                }
-            }
-
-            var cursor = game.getCursor();
+            var cursor = state.cursor();
             batch.draw(assets.getTexture(BiogasAsset.CURSOR),
-                    conveyorOffsetX + cursor.getX() * cursor.getWidth(),
-                    conveyorOffsetY + cursor.getY() * cursor.getHeight(),
-                    cursor.getWidth(), cursor.getHeight());
+                    cursor.x(),
+                    cursor.y(),
+                    cursor.width(),
+                    cursor.height());
         });
     }
 
@@ -58,7 +41,16 @@ public class BiogasUI implements UI<BiogasGame> {
         assets.dispose();
     }
 
-    private BiogasAsset translate(Trash trash) {
-        return trash.isBiodegradable() ? BiogasAsset.GREEN_ITEM : BiogasAsset.RED_ITEM;
+    private BiogasAsset translate(TrashType type) {
+        return switch (type) {
+            case APPLE -> BiogasAsset.APPLE;
+            case BANANA -> BiogasAsset.BANANA;
+            case BOTTLE -> BiogasAsset.BOTTLE;
+            case CAN -> BiogasAsset.CAN;
+            case COLA -> BiogasAsset.COLA;
+            case CUP -> BiogasAsset.CUP;
+            case GRAPES -> BiogasAsset.GRAPES;
+            case GLASS -> BiogasAsset.GLASS;
+        };
     }
 }

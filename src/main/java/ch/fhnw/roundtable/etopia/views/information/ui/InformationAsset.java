@@ -1,9 +1,11 @@
 package ch.fhnw.roundtable.etopia.views.information.ui;
 
-import ch.fhnw.roundtable.etopia.views.Asset;
+import ch.fhnw.roundtable.etopia.rendering.Asset;
 
 public enum InformationAsset implements Asset {
-    BACKGROUND("assets/information/background.png");
+    INFORMATION("assets/information/information.png"),
+    SUCCESS("assets/information/success.png"),
+    FAIL("assets/information/fail.png");
 
     private final String path;
 

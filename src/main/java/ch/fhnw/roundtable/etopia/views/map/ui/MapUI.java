@@ -1,12 +1,12 @@
 package ch.fhnw.roundtable.etopia.views.map.ui;
 
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.UI;
-import ch.fhnw.roundtable.etopia.views.map.game.LocationType;
-import ch.fhnw.roundtable.etopia.views.map.game.MapGame;
+import ch.fhnw.roundtable.etopia.UI;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.map.model.Building;
+import ch.fhnw.roundtable.etopia.views.map.state.MapState;
 
-public class MapUI implements UI<MapGame> {
+public class MapUI implements UI<MapState> {
 
     private final Assets<MapAsset> assets;
 
@@ -15,24 +15,22 @@ public class MapUI implements UI<MapGame> {
     }
 
     @Override
-    public void render(MapGame game, Renderer renderer) {
+    public void render(MapState state, Renderer renderer) {
         renderer.batch(batch -> {
             batch.drawBackground(assets.getTexture(MapAsset.BACKGROUND));
 
-            for (var entry : game.getLocations().entrySet()) {
-                var type = entry.getKey();
-                var location = entry.getValue();
+            for (var location : state.locations()) {
+                var selected = state.hovered() == location.building();
 
-                batch.draw(assets.getTexture(translate(type)),
-                        location.getX(), location.getY(),
-                        location.getWidth(), location.getHeight());
-
-                if (game.getHovered() == type) {
-                    batch.draw(assets.getTexture(MapAsset.HUMAN),
-                            location.getX() + 48, location.getY() - 32,
-                            location.getWidth(), location.getHeight());
-                }
+                batch.draw(assets.getTexture(translate(location.building(), location.success(), selected)),
+                        location.x(), location.y(),
+                        location.width(), location.height());
             }
+
+            var human = state.human();
+            batch.draw(assets.getTexture(human.male() ? MapAsset.BOY : MapAsset.GIRL),
+                    human.x(), human.y(),
+                    human.width(), human.height());
         });
     }
 
@@ -41,15 +39,28 @@ public class MapUI implements UI<MapGame> {
         assets.dispose();
     }
 
-    private MapAsset translate(LocationType locationType) {
+    @SuppressWarnings("PMD.CyclomaticComplexity")
+    private MapAsset translate(Building locationType, boolean success, boolean selected) {
         return switch (locationType) {
-            case BIOGAS -> MapAsset.BIOGAS;
-            case WIND -> MapAsset.WIND;
-            case GRID -> MapAsset.GRID;
-            case GEOTHERMAL -> MapAsset.GEOTHERMAL;
-            case SOLAR -> MapAsset.SOLAR;
-            case INFORMATION -> MapAsset.INFORMATION;
-            default -> MapAsset.PANEL;
+            case BIOGAS -> success
+                    ? selected ? MapAsset.BIOGAS_SUCCESS_SELECTED : MapAsset.BIOGAS_SUCCESS_UNSELECTED
+                    : selected ? MapAsset.BIOGAS_FAILED_SELECTED : MapAsset.BIOGAS_FAILED_UNSELECTED;
+            case WIND -> success
+                    ? selected ? MapAsset.WIND_SUCCESS_SELECTED : MapAsset.WIND_SUCCESS_UNSELECTED
+                    : selected ? MapAsset.WIND_FAILED_SELECTED : MapAsset.WIND_FAILED_UNSELECTED;
+            case GRID -> success
+                    ? selected ? MapAsset.GRID_SUCCESS_SELECTED : MapAsset.GRID_SUCCESS_UNSELECTED
+                    : selected ? MapAsset.GRID_FAILED_SELECTED : MapAsset.GRID_FAILED_UNSELECTED;
+            case GEOTHERMAL -> success
+                    ? selected ? MapAsset.GEOTHERMAL_SUCCESS_SELECTED : MapAsset.GEOTHERMAL_SUCCESS_UNSELECTED
+                    : selected ? MapAsset.GEOTHERMAL_FAILED_SELECTED : MapAsset.GEOTHERMAL_FAILED_UNSELECTED;
+            case SOLAR -> success
+                    ? selected ? MapAsset.SOLAR_SUCCESS_SELECTED : MapAsset.SOLAR_SUCCESS_UNSELECTED
+                    : selected ? MapAsset.SOLAR_FAILED_SELECTED : MapAsset.SOLAR_FAILED_UNSELECTED;
+            case INFORMATION -> selected ? MapAsset.INFORMATION_SELECTED : MapAsset.INFORMATION_UNSELECTED;
+            case SETTINGS -> selected ? MapAsset.SETTINGS_SELECTED : MapAsset.SETTINGS_UNSELECTED;
+
+
         };
     }
 }

@@ -10,6 +10,11 @@
 		<property name="checks" value=".*"/>
 		<property name="files" value=".+\.(?:txt|xml|csv|sh|xlsx|html|sql|eot|ttf|woff|css|png)$"/>
 	</module>
+	<module name="SuppressionSingleFilter">
+		<property name="checks" value="WhitespaceAround"/>
+		<!-- This regex targets the specific error message about generic brackets -->
+		<property name="message" value="'.*' is not (followed|preceded) (with|by) whitespace."/>
+	</module>
 
 	<module name="TreeWalker">
 		<property name="tabWidth" value="4" />

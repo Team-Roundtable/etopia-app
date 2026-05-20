@@ -1,6 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.grid.ui;
 
-import ch.fhnw.roundtable.etopia.views.Asset;
+import ch.fhnw.roundtable.etopia.rendering.Asset;
 
 public enum GridAsset implements Asset {
     BACKGROUND("assets/grid/background.png"),
