@@ -1,58 +1,44 @@
 package ch.fhnw.roundtable.etopia.views.geothermal.ui;
 
-import ch.fhnw.roundtable.etopia.ETopia;
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.UI;
-import ch.fhnw.roundtable.etopia.views.geothermal.GeothermalConfiguration;
-import ch.fhnw.roundtable.etopia.views.geothermal.game.GeothermalGame;
-import ch.fhnw.roundtable.etopia.views.geothermal.game.PipeSegment;
-import ch.fhnw.roundtable.etopia.views.geothermal.game.Rock;
+import ch.fhnw.roundtable.etopia.UI;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.geothermal.state.GeothermalState;
 
-public class GeothermalUI implements UI<GeothermalGame> {
+public class GeothermalUI implements UI<GeothermalState> {
 
-    private final GeothermalConfiguration geothermalConfiguration;
     private final Assets<GeothermalAsset> assets;
 
-    public GeothermalUI(GeothermalConfiguration geothermalConfiguration, Assets<GeothermalAsset> assets) {
-        this.geothermalConfiguration = geothermalConfiguration;
+    public GeothermalUI(Assets<GeothermalAsset> assets) {
         this.assets = assets;
     }
 
     @Override
-    public void render(GeothermalGame game, Renderer renderer) {
-        renderer.setCameraPosition(ETopia.WORLD_WIDTH / 2f, game.getDrill().getY());
+    public void render(GeothermalState state, Renderer renderer) {
+        renderer.setCameraPosition(state.cameraPositionX(), state.cameraPositionY());
 
         renderer.batch(batch -> {
-            var map = geothermalConfiguration.mapSize;
-            batch.draw(assets.getTexture(GeothermalAsset.BACKGROUND), 0, 0, map.width(), map.height());
+            batch.draw(assets.getTexture(GeothermalAsset.BACKGROUND), 0, 0, state.mapWidth(), state.mapHeight());
 
-            for (Rock rock : game.getRocks()) {
+            for (var rock : state.rocks()) {
                 batch.drawCentered(assets.getTexture(GeothermalAsset.ROCK),
-                        rock.getX(), rock.getY(),
-                        rock.getWidth(), rock.getHeight(),
-                        0);
+                        rock.x(), rock.y(),
+                        rock.width(), rock.height(),
+                        rock.rotation());
             }
 
-            for (PipeSegment pipeSegment : game.getDownPipe()) {
+            for (var pipe : state.pipes()) {
                 batch.drawCentered(assets.getTexture(GeothermalAsset.PIPE),
-                        pipeSegment.getX(), pipeSegment.getY(),
-                        pipeSegment.getWidth(), pipeSegment.getHeight(),
-                        pipeSegment.getRotation());
+                        pipe.x(), pipe.y(),
+                        pipe.width(), pipe.height(),
+                        pipe.rotation());
             }
 
-            for (PipeSegment pipeSegment : game.getUpPipe()) {
-                batch.drawCentered(assets.getTexture(GeothermalAsset.PIPE),
-                        pipeSegment.getX(), pipeSegment.getY(),
-                        pipeSegment.getWidth(), pipeSegment.getHeight(),
-                        pipeSegment.getRotation());
-            }
-
-            var drill = game.getDrill();
+            var drill = state.drill();
             batch.drawCentered(assets.getTexture(GeothermalAsset.DRILL),
-                    drill.getX(), drill.getY(),
-                    drill.getWidth(), drill.getHeight(),
-                    drill.getRotation());
+                    drill.x(), drill.y(),
+                    drill.width(), drill.height(),
+                    drill.rotation());
         });
 
         renderer.resetCamera();

@@ -1,36 +1,33 @@
 package ch.fhnw.roundtable.etopia.views.map;
 
-import ch.fhnw.roundtable.etopia.input.Input;
-import ch.fhnw.roundtable.etopia.input.LEDControl;
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.View;
-import ch.fhnw.roundtable.etopia.views.ViewType;
-import ch.fhnw.roundtable.etopia.views.map.game.MapGame;
+import ch.fhnw.roundtable.etopia.Transition;
+import ch.fhnw.roundtable.etopia.View;
+import ch.fhnw.roundtable.etopia.configuration.Configuration;
+import ch.fhnw.roundtable.etopia.input.Controls;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.map.model.MapModel;
 import ch.fhnw.roundtable.etopia.views.map.ui.MapAsset;
 import ch.fhnw.roundtable.etopia.views.map.ui.MapUI;
 
 public class Map implements View {
 
-    private final MapGame mapGame;
+    private final MapModel mapModel;
     private final MapUI mapUI;
 
-    public Map(LEDControl ledControl) {
-        ledControl.ledAllPlayableOn();
-
-        var mapConfiguration = new MapConfiguration();
-        this.mapGame = new MapGame(mapConfiguration);
+    public Map(Configuration configuration) {
+        this.mapModel = new MapModel(configuration);
         this.mapUI = new MapUI(new Assets<>(MapAsset.class));
     }
 
     @Override
-    public void update(float delta, Input input) {
-        mapGame.update(delta, input);
+    public void update(float delta, Controls controls) {
+        mapModel.update(delta, controls);
     }
 
     @Override
     public void render(Renderer renderer) {
-        mapUI.render(mapGame, renderer);
+        mapUI.render(mapModel.state(), renderer);
     }
 
     @Override
@@ -39,7 +36,12 @@ public class Map implements View {
     }
 
     @Override
-    public ViewType next() {
-        return mapGame.next();
+    public Transition transition() {
+        var result = mapModel.result();
+
+        return switch (result) {
+            case RUNNING, FAIL_TIME, FAIL_HEALTH -> Transition.none();
+            case SUCCESS -> Transition.change(mapModel.next());
+        };
     }
 }

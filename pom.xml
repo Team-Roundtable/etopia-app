@@ -14,10 +14,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <libgdx.version>1.14.0</libgdx.version>
+        <libgdx-video.version>1.3.4</libgdx-video.version>
         <pi4j.version>4.0.0</pi4j.version>
         <logback.version>1.5.32</logback.version>
         <commons.logging.version>1.3.6</commons.logging.version>
-        <junit.version>5.14.3</junit.version>
+        <junit.version>5.14.4</junit.version>
+        <mockito.version>5.23.0</mockito.version>
 
         <compiler.plugin.version>3.15.0</compiler.plugin.version>
         <shade.plugin.version>3.6.2</shade.plugin.version>
@@ -71,6 +73,30 @@
             <classifier>natives-desktop</classifier>
         </dependency>
 
+        <!-- gdx video -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx-video</groupId>
+            <artifactId>gdx-video</artifactId>
+            <version>${libgdx-video.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- gdx video desktop -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx-video</groupId>
+            <artifactId>gdx-video-desktop</artifactId>
+            <version>${libgdx-video.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <!-- gdx video native -->
+        <dependency>
+            <groupId>com.badlogicgames.gdx-video</groupId>
+            <artifactId>gdx-video-lwjgl3</artifactId>
+            <version>${libgdx-video.version}</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- pi4j -->
         <dependency>
             <groupId>com.pi4j</groupId>
@@ -111,6 +137,14 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- mocking -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -175,10 +209,10 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${basedir}/target/config</outputDirectory>
+                            <outputDirectory>${basedir}/target/configuration</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${basedir}/config</directory>
+                                    <directory>${basedir}/configuration</directory>
                                     <includes>
                                         <include>*</include>
                                     </includes>
@@ -232,6 +266,19 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/configuration/**</exclude>
+                        <exclude>**/input/pi4j/**</exclude>
+                        <exclude>**/input/libgdx/**</exclude>
+                        <exclude>**/input/ControlsFactory.*</exclude>
+                        <exclude>**/rendering/**</exclude>
+                        <exclude>**/views/**/state/**</exclude>
+                        <exclude>**/views/**/ui/**</exclude>
+                        <exclude>**/Main.*</exclude>
+                        <exclude>**/ETopia.*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -259,12 +306,12 @@
                                         <limit>
                                             <counter>LINE</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.02</minimum>
+                                            <minimum>0.16</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.11</minimum>
+                                            <minimum>0.29</minimum>
                                         </limit>
                                     </limits>
                                 </rule>
@@ -333,6 +380,17 @@
                 <version>${jacoco.plugin.version}</version>
                 <configuration>
                     <skip>false</skip>
+                    <excludes>
+                        <exclude>**/configuration/**</exclude>
+                        <exclude>**/input/pi4j/**</exclude>
+                        <exclude>**/input/libgdx/**</exclude>
+                        <exclude>**/input/ControlsFactory.*</exclude>
+                        <exclude>**/rendering/**</exclude>
+                        <exclude>**/views/**/state/**</exclude>
+                        <exclude>**/views/**/ui/**</exclude>
+                        <exclude>**/Main.*</exclude>
+                        <exclude>**/ETopia.*</exclude>
+                    </excludes>
                 </configuration>
                 <reportSets>
                     <reportSet>

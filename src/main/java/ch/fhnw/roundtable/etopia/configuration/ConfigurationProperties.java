@@ -29,17 +29,31 @@ public class ConfigurationProperties {
     public Optional<String> getString(String key) {
         var value = properties.get(key);
         if (value == null) {
-            LOGGER.warn("Property {} not found, default used", key);
             return Optional.empty();
         }
 
-        return Optional.of(value.toString());
+        return Optional.ofNullable(value.toString());
     }
 
     public Optional<String[]> getStrings(String key) {
         var value = getString(key);
 
         return value.map(s -> s.split(","));
+    }
+
+    public Optional<Integer> getInt(String key) {
+        var value = getString(key);
+
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+
+        try {
+            return Optional.of(Integer.valueOf(value.get()));
+        } catch (NumberFormatException e) {
+            LOGGER.warn("Invalid integer number format for {}", key);
+            return Optional.empty();
+        }
     }
 
     public Optional<Float> getFloat(String key) {
@@ -55,5 +69,12 @@ public class ConfigurationProperties {
             LOGGER.warn("Invalid decimal number format for {}", key);
             return Optional.empty();
         }
+    }
+
+    public Optional<Boolean> getBoolean(String key) {
+        var value = getString(key);
+
+        return value.map(Boolean::valueOf);
+
     }
 }

@@ -1,6 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.geothermal.ui;
 
-import ch.fhnw.roundtable.etopia.views.Asset;
+import ch.fhnw.roundtable.etopia.rendering.Asset;
 
 public enum GeothermalAsset implements Asset {
     BACKGROUND("assets/geothermal/background.png"),

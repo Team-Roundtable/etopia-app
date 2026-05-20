@@ -4,6 +4,7 @@ import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import ch.fhnw.roundtable.etopia.configuration.ConfigurationProperties;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
@@ -15,16 +16,32 @@ public final class Main {
     }
 
     public static void main(String[] args) {
+        Thread.setDefaultUncaughtExceptionHandler(
+                (t, e) -> LoggerFactory.getLogger("CRASH").error("Uncaught exception in thread {}", t.getName(), e));
+
         var configurationProperties = new ConfigurationProperties(CONFIGURATION_PATH);
 
         var configuration = new Configuration(configurationProperties);
 
-        var libGDXConfiguration = new Lwjgl3ApplicationConfiguration();
-        libGDXConfiguration.setTitle("E-Topia");
-        libGDXConfiguration.useVsync(true);
-        libGDXConfiguration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate + 1);
-        // todo should start in fullscreen in the future
-        libGDXConfiguration.setWindowedMode(800, 500);
+        var libGDXConfiguration = getLwjgl3ApplicationConfiguration();
+
         new Lwjgl3Application(new ETopia(configuration), libGDXConfiguration);
+    }
+
+    private static Lwjgl3ApplicationConfiguration getLwjgl3ApplicationConfiguration() {
+        var configuration = new Lwjgl3ApplicationConfiguration();
+
+        configuration.setTitle("E-Topia");
+
+        configuration.useVsync(true);
+        configuration.setDecorated(false);
+        configuration.setResizable(false);
+
+        var displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+
+        configuration.setWindowedMode(displayMode.width, displayMode.height);
+        configuration.setForegroundFPS(displayMode.refreshRate);
+
+        return configuration;
     }
 }

@@ -1,6 +1,6 @@
 package ch.fhnw.roundtable.etopia.views.wind.ui;
 
-import ch.fhnw.roundtable.etopia.views.Asset;
+import ch.fhnw.roundtable.etopia.rendering.Asset;
 
 public enum WindAsset implements Asset {
     BACKGROUND("assets/wind/background.png"),

@@ -17,7 +17,7 @@ public class Languages {
         String[] names = properties.getStrings("languages").orElse(new String[0]);
 
         if (names.length == 0) {
-            LOGGER.error("No languages defined in configuration");
+            LOGGER.error("No options defined in configuration");
         }
 
         for (String name : names) {
@@ -34,7 +34,7 @@ public class Languages {
         this.current = current;
     }
 
-    public List<String> getAvailableNames() {
+    public List<String> getAvailable() {
         return available.stream().map(Language::getName).toList();
     }
 }

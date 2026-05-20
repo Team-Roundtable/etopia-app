@@ -1,52 +1,61 @@
 package ch.fhnw.roundtable.etopia.views.grid.ui;
 
-import ch.fhnw.roundtable.etopia.ETopia;
-import ch.fhnw.roundtable.etopia.views.Assets;
-import ch.fhnw.roundtable.etopia.views.Renderer;
-import ch.fhnw.roundtable.etopia.views.UI;
-import ch.fhnw.roundtable.etopia.views.grid.GridConfiguration;
-import ch.fhnw.roundtable.etopia.views.grid.game.GridGame;
-import ch.fhnw.roundtable.etopia.views.grid.game.Pipe;
-import ch.fhnw.roundtable.etopia.views.grid.game.Pipes;
+import ch.fhnw.roundtable.etopia.UI;
+import ch.fhnw.roundtable.etopia.rendering.Assets;
+import ch.fhnw.roundtable.etopia.rendering.Renderer;
+import ch.fhnw.roundtable.etopia.views.grid.model.PipeType;
+import ch.fhnw.roundtable.etopia.views.grid.state.GridState;
 
-public class GridUI implements UI<GridGame> {
+import java.util.Map;
 
-    private final GridConfiguration gridConfiguration;
+public class GridUI implements UI<GridState> {
+
+    private static final Map<PipeType, GridAsset> UNPOWERED = Map.of(
+            PipeType.STRAIGHT_EDITABLE, GridAsset.STRAIGHT_EDITABLE_UNPOWERED,
+            PipeType.CORNER_EDITABLE, GridAsset.CORNER_EDITABLE_UNPOWERED,
+            PipeType.THREE_WAY_EDITABLE, GridAsset.THREE_WAY_EDITABLE_UNPOWERED,
+            PipeType.STRAIGHT_IMMUTABLE, GridAsset.STRAIGHT_IMMUTABLE_UNPOWERED,
+            PipeType.CROSS_IMMUTABLE, GridAsset.CROSS_IMMUTABLE_UNPOWERED,
+            PipeType.CORNER_IMMUTABLE, GridAsset.CORNER_IMMUTABLE_UNPOWERED,
+            PipeType.THREE_WAY_IMMUTABLE, GridAsset.THREE_WAY_IMMUTABLE_UNPOWERED,
+            PipeType.CONSUMER, GridAsset.CONSUMER_UNPOWERED,
+            PipeType.PRODUCER, GridAsset.PRODUCER
+    );
+
+    private static final Map<PipeType, GridAsset> POWERED = Map.of(
+            PipeType.STRAIGHT_EDITABLE, GridAsset.STRAIGHT_EDITABLE_POWERED,
+            PipeType.CORNER_EDITABLE, GridAsset.CORNER_EDITABLE_POWERED,
+            PipeType.THREE_WAY_EDITABLE, GridAsset.THREE_WAY_EDITABLE_POWERED,
+            PipeType.STRAIGHT_IMMUTABLE, GridAsset.STRAIGHT_IMMUTABLE_POWERED,
+            PipeType.CROSS_IMMUTABLE, GridAsset.CROSS_IMMUTABLE_POWERED,
+            PipeType.CORNER_IMMUTABLE, GridAsset.CORNER_IMMUTABLE_POWERED,
+            PipeType.THREE_WAY_IMMUTABLE, GridAsset.THREE_WAY_IMMUTABLE_POWERED,
+            PipeType.CONSUMER, GridAsset.CONSUMER_POWERED,
+            PipeType.PRODUCER, GridAsset.PRODUCER
+    );
+
     private final Assets<GridAsset> assets;
 
-    public GridUI(GridConfiguration gridConfiguration, Assets<GridAsset> assets) {
-        this.gridConfiguration = gridConfiguration;
+    public GridUI(Assets<GridAsset> assets) {
         this.assets = assets;
     }
 
     @Override
-    public void render(GridGame game, Renderer renderer) {
+    public void render(GridState state, Renderer renderer) {
         renderer.batch(batch -> {
-
             batch.drawBackground(assets.getTexture(GridAsset.BACKGROUND));
 
-            var pipeSize = gridConfiguration.pipeSize;
-            var paddingX = (ETopia.WORLD_WIDTH - (gridConfiguration.mapWidth - 1) * pipeSize.width()) / 2f;
-            var paddingY = (ETopia.WORLD_HEIGHT - (gridConfiguration.mapHeight - 1) * pipeSize.height()) / 2f;
-
-            Pipes pipes = game.getPipes();
-            for (int x = 0; x < pipes.width(); x++) {
-                for (int y = 0; y < pipes.height(); y++) {
-                    var pipe = pipes.get(x, y);
-
-                    if (pipe != null) {
-                        batch.drawCentered(assets.getTexture(translate(pipe)),
-                                paddingX + x * pipeSize.width(), paddingY + y * pipeSize.height(),
-                                pipeSize.width(), pipeSize.height(),
-                                pipe.getRotation() * 90);
-                    }
-                }
+            for (var pipe : state.pipes()) {
+                batch.drawCentered(assets.getTexture(translate(pipe.type(), pipe.powered())),
+                        pipe.x(), pipe.y(),
+                        pipe.width(), pipe.height(),
+                        pipe.rotation());
             }
 
+            var cursor = state.cursor();
             batch.drawCentered(assets.getTexture(GridAsset.CURSOR),
-                    paddingX + game.getCursor().getX() * pipeSize.width(),
-                    paddingY + game.getCursor().getY() * pipeSize.height(),
-                    pipeSize.width(), pipeSize.height(),
+                    cursor.x(), cursor.y(),
+                    cursor.width(), cursor.height(),
                     0);
         });
     }
@@ -56,25 +65,9 @@ public class GridUI implements UI<GridGame> {
         assets.dispose();
     }
 
-    public GridAsset translate(Pipe pipe) {
-        return switch (pipe.getType()) {
-            case CROSS_IMMUTABLE -> pipe.isPowered()
-                    ? GridAsset.CROSS_IMMUTABLE_POWERED : GridAsset.CROSS_IMMUTABLE_UNPOWERED;
-            case STRAIGHT_IMMUTABLE -> pipe.isPowered()
-                    ? GridAsset.STRAIGHT_IMMUTABLE_POWERED : GridAsset.STRAIGHT_IMMUTABLE_UNPOWERED;
-            case STRAIGHT_EDITABLE -> pipe.isPowered()
-                    ? GridAsset.STRAIGHT_EDITABLE_POWERED : GridAsset.STRAIGHT_EDITABLE_UNPOWERED;
-            case CORNER_IMMUTABLE -> pipe.isPowered()
-                    ? GridAsset.CORNER_IMMUTABLE_POWERED : GridAsset.CORNER_IMMUTABLE_UNPOWERED;
-            case CORNER_EDITABLE -> pipe.isPowered()
-                    ? GridAsset.CORNER_EDITABLE_POWERED : GridAsset.CORNER_EDITABLE_UNPOWERED;
-            case THREE_WAY_IMMUTABLE -> pipe.isPowered()
-                    ? GridAsset.THREE_WAY_IMMUTABLE_POWERED : GridAsset.THREE_WAY_IMMUTABLE_UNPOWERED;
-            case THREE_WAY_EDITABLE -> pipe.isPowered()
-                    ? GridAsset.THREE_WAY_EDITABLE_POWERED : GridAsset.THREE_WAY_EDITABLE_UNPOWERED;
-            case PRODUCER -> GridAsset.PRODUCER;
-            case CONSUMER -> pipe.isPowered()
-                    ? GridAsset.CONSUMER_POWERED : GridAsset.CONSUMER_UNPOWERED;
-        };
+    private GridAsset translate(PipeType type, boolean powered) {
+        return powered
+                ? POWERED.get(type)
+                : UNPOWERED.get(type);
     }
 }
