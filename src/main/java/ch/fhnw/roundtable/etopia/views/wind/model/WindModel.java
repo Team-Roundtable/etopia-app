@@ -26,12 +26,26 @@ public class WindModel implements Model<WindState> {
     private final StatusModel status;
 
     public WindModel(Configuration configuration, Random random, StatusModel status) {
+        this(configuration,
+                random,
+                status,
+                new Turbine(configuration),
+                new Timer(configuration.wind().gustTimer()),
+                new Timer(configuration.wind().tornadoTimer()));
+    }
+
+    public WindModel(Configuration configuration,
+                     Random random,
+                     StatusModel status,
+                     Turbine turbine,
+                     Timer gustNormalTimer,
+                     Timer gustHarmfulTimer) {
         this.random = random;
         this.configuration = configuration;
-        this.turbine = new Turbine(configuration);
+        this.turbine = turbine;
 
-        this.gustNormalTimer = new Timer(configuration.wind().gustTimer());
-        this.gustHarmfulTimer = new Timer(configuration.wind().tornadoTimer());
+        this.gustNormalTimer = gustNormalTimer;
+        this.gustHarmfulTimer = gustHarmfulTimer;
 
         this.outsideBounds = new Rectangle(-200, 0, 100, configuration.worldHeight());
         this.status = status;
@@ -78,7 +92,7 @@ public class WindModel implements Model<WindState> {
         return Result.RUNNING;
     }
 
-    private void spawnGusts(float delta) {
+    void spawnGusts(float delta) {
         if (gustNormalTimer.triggered(delta)) {
             gusts.add(new Gust(configuration, random.nextFloat(configuration.worldHeight()), false));
         }
@@ -88,7 +102,7 @@ public class WindModel implements Model<WindState> {
         }
     }
 
-    private void checkCollision() {
+    void checkCollision() {
         var turbineBounds = turbine.getBounds();
         var gustIterator = gusts.iterator();
 
@@ -111,5 +125,9 @@ public class WindModel implements Model<WindState> {
                 gustIterator.remove();
             }
         }
+    }
+
+    List<Gust> getGusts() {
+        return gusts;
     }
 }
