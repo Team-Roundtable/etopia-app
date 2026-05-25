@@ -19,10 +19,24 @@ public class SolarModel implements Model<SolarState> {
     private float efficiency;
 
     public SolarModel(Configuration configuration, StatusModel status) {
+        this(
+                status,
+                new Sun(configuration),
+                new Panel(configuration),
+                new Timer(configuration.solar().energyInterval())
+        );
+    }
+
+    SolarModel(
+            StatusModel status,
+            Sun sun,
+            Panel panel,
+            Timer energyInterval
+    ) {
         this.status = status;
-        this.sun = new Sun(configuration);
-        this.panel = new Panel(configuration);
-        this.energyInterval = new Timer(configuration.solar().energyInterval());
+        this.sun = sun;
+        this.panel = panel;
+        this.energyInterval = energyInterval;
     }
 
     @Override
