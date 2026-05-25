@@ -15,7 +15,7 @@ public class WindUI implements UI<WindState>, Updateable {
 
     public WindUI(Assets<WindAsset> assets) {
         this.assets = assets;
-        this.turbineAnimation = new AnimatedAsset(assets.getTexture(WindAsset.TURBINE), 4, 0.075f);
+        this.turbineAnimation = new AnimatedAsset(assets.getTexture(WindAsset.TURBINE), 4, 1/16f);
     }
 
     @Override
