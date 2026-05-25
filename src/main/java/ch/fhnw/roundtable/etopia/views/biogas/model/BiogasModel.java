@@ -23,11 +23,15 @@ public class BiogasModel implements Model<BiogasState> {
     private final StatusModel status;
 
     public BiogasModel(Configuration configuration, Random random, StatusModel status) {
+        this(configuration, random, status, new Cursor(configuration), new Timer(configuration.biogas().shiftTimer()));
+    }
+
+    BiogasModel(Configuration configuration, Random random, StatusModel status, Cursor cursor, Timer timer) {
         this.configuration = configuration;
         this.random = random;
-        this.cursor = new Cursor(configuration);
+        this.cursor = cursor;
         this.trashes = new ArrayList<>();
-        this.shiftTimer = new Timer(configuration.biogas().shiftTimer());
+        this.shiftTimer = timer;
         this.status = status;
     }
 
@@ -110,5 +114,9 @@ public class BiogasModel implements Model<BiogasState> {
 
     private void removeTrash() {
         trashes.removeIf(trash -> trash.intersects(cursor));
+    }
+
+    List<Trash> getTrashes() {
+        return trashes;
     }
 }

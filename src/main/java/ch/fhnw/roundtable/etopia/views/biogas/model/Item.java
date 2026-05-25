@@ -28,4 +28,12 @@ public class Item {
     protected float getY() {
         return configuration.biogas().conveyorOffsetY() + y * side;
     }
+
+    float localX() {
+        return x;
+    }
+
+    float localY() {
+        return y;
+    }
 }
