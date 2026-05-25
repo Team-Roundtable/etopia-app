@@ -13,6 +13,6 @@ public class Pi4JInput implements Input {
 
     @Override
     public boolean isPressed() {
-        return input != null && input.isLow();
+        return input != null && input.isHigh();
     }
 }

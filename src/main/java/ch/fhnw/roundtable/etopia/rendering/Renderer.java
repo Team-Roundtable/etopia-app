@@ -31,6 +31,8 @@ public class Renderer {
 
         viewport.apply(true);
         render.setProjectionMatrix(viewport.getCamera().combined);
+
+        Gdx.input.setCursorCatched(true);
     }
 
     public void batch(Consumer<Render> consumer) {

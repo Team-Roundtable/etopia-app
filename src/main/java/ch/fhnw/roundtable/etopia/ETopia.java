@@ -35,8 +35,6 @@ public class ETopia implements ApplicationListener {
         renderer = new Renderer();
 
         view = new Map(configuration);
-
-        Gdx.input.setCursorCatched(true);
     }
 
     @Override
@@ -69,8 +67,14 @@ public class ETopia implements ApplicationListener {
 
                 view = nextView;
             }
+        } catch (Exception e) {
+            LOGGER.error("FATAL: exception in main loop, trying to recover", e);
+            if (view != null) {
+                view.dispose();
+            }
+            view = new Map(configuration);
         } catch (Throwable t) {
-            LOGGER.error("FATAL: error in main rendering loop, {}", t.getMessage(), t);
+            LOGGER.error("FATAL: error in main loop", t);
             throw t;
         }
     }
