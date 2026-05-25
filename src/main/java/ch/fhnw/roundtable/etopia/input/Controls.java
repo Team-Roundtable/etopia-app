@@ -1,10 +1,18 @@
 package ch.fhnw.roundtable.etopia.input;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.EnumSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Controls {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(Controls.class);
+
     private final Map<ButtonType, Button> buttons;
+    private final Set<ButtonType> lightErrors = EnumSet.noneOf(ButtonType.class);
 
     public Controls(Map<ButtonType, Button> buttons) {
         this.buttons = buttons;
@@ -37,7 +45,13 @@ public class Controls {
     }
 
     public void setButtonLight(ButtonType type, boolean newState) {
-        buttons.get(type).setLight(newState);
+        try {
+            buttons.get(type).setLight(newState);
+        } catch (RuntimeException e) {
+            if (lightErrors.add(type)) {
+                LOGGER.error("Failed to set button light for {}: {}", type, e.getMessage(), e);
+            }
+        }
     }
 
     public void setButtonLightPlayable() {

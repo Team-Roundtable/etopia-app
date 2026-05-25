@@ -2,6 +2,7 @@ package ch.fhnw.roundtable.etopia.input.pi4j;
 
 import ch.fhnw.roundtable.etopia.input.Light;
 import com.pi4j.io.OnOffWrite;
+import com.pi4j.io.exception.IOException;
 
 public class Pi4JLight implements Light {
 
@@ -13,7 +14,7 @@ public class Pi4JLight implements Light {
     }
 
     @Override
-    public void set(boolean newState) {
+    public void set(boolean newState) throws RuntimeException {
         if (control == null) {
             return;
         }
@@ -22,7 +23,11 @@ public class Pi4JLight implements Light {
             return;
         }
 
-        control.setState(newState);
-        state = newState;
+        try {
+            control.setState(newState);
+            state = newState;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

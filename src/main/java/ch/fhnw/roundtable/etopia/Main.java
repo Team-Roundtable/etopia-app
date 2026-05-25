@@ -20,12 +20,11 @@ public final class Main {
                 (t, e) -> LoggerFactory.getLogger("CRASH").error("Uncaught exception in thread {}", t.getName(), e));
 
         var configurationProperties = new ConfigurationProperties(CONFIGURATION_PATH);
-
         var configuration = new Configuration(configurationProperties);
 
+        var etopia = new ETopia(configuration);
         var libGDXConfiguration = getLwjgl3ApplicationConfiguration();
-
-        new Lwjgl3Application(new ETopia(configuration), libGDXConfiguration);
+        new Lwjgl3Application(etopia, libGDXConfiguration);
     }
 
     private static Lwjgl3ApplicationConfiguration getLwjgl3ApplicationConfiguration() {

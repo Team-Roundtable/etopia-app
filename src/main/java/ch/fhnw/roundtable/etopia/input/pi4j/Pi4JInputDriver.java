@@ -22,7 +22,7 @@ public class Pi4JInputDriver {
                 .id("BTN_" + pin)
                 .name("BUTTON_" + pin)
                 .bcm(pin)
-                .pull(PullResistance.PULL_UP)
+                .pull(PullResistance.PULL_DOWN)
                 .debounce(DEBOUNCE_TIME_IN_MICROSECONDS);
 
         DigitalInput digitalInput = null;
