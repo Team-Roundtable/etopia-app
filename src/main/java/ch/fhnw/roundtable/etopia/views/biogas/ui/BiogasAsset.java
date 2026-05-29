@@ -12,7 +12,9 @@ public enum BiogasAsset implements Asset {
     GRAPES("assets/biogas/grapes.png"),
     GLASS("assets/biogas/glass.png"),
     BACKGROUND("assets/biogas/background.png"),
-    CURSOR("assets/biogas/cursor.png");
+    CURSOR("assets/biogas/cursor.png"),
+    POWER_ICON("assets/common/power.png"),
+    CROSS_ICON("assets/common/cross.png");
 
     private final String path;
 

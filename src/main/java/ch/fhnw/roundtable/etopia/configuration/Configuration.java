@@ -2,6 +2,7 @@ package ch.fhnw.roundtable.etopia.configuration;
 
 public record Configuration(
         boolean dummyMode,
+        boolean fullScreen,
         Languages languages,
         State state,
         Information information,
@@ -21,6 +22,7 @@ public record Configuration(
     public Configuration(ConfigurationProperties properties) {
         this(
                 properties.getBoolean("dummyMode").orElse(false),
+                properties.getBoolean("fullScreen").orElse(true),
                 new Languages(properties),
                 new State(),
                 new Information(properties),

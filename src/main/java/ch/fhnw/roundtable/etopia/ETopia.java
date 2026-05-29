@@ -32,7 +32,7 @@ public class ETopia implements ApplicationListener {
     @Override
     public void create() {
         controls = ControlsFactory.create(configuration);
-        renderer = new Renderer();
+        renderer = new Renderer(configuration);
 
         view = new Map(configuration);
     }

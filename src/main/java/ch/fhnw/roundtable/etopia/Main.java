@@ -23,22 +23,24 @@ public final class Main {
         var configuration = new Configuration(configurationProperties);
 
         var etopia = new ETopia(configuration);
-        var libGDXConfiguration = getLwjgl3ApplicationConfiguration();
+        var libGDXConfiguration = getLwjgl3ApplicationConfiguration(configuration);
         new Lwjgl3Application(etopia, libGDXConfiguration);
     }
 
-    private static Lwjgl3ApplicationConfiguration getLwjgl3ApplicationConfiguration() {
+    private static Lwjgl3ApplicationConfiguration getLwjgl3ApplicationConfiguration(Configuration appConfig) {
         var configuration = new Lwjgl3ApplicationConfiguration();
 
         configuration.setTitle("E-Topia");
 
         configuration.useVsync(true);
-        configuration.setDecorated(false);
-        configuration.setResizable(false);
-
         var displayMode = Lwjgl3ApplicationConfiguration.getDisplayMode();
+        if (appConfig.fullScreen()) {
+            configuration.setDecorated(false);
+            configuration.setResizable(false);
 
-        configuration.setWindowedMode(displayMode.width, displayMode.height);
+            configuration.setWindowedMode(displayMode.width, displayMode.height);
+        }
+
         configuration.setForegroundFPS(displayMode.refreshRate);
 
         return configuration;
