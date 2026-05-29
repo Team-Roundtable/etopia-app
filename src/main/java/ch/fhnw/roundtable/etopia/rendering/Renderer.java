@@ -1,5 +1,6 @@
 package ch.fhnw.roundtable.etopia.rendering;
 
+import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -20,7 +21,7 @@ public class Renderer {
     private final Render render = new Render();
     private final Viewport viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    public Renderer() {
+    public Renderer(Configuration configuration) {
         var parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = FONT_SIZE;
 
@@ -32,7 +33,9 @@ public class Renderer {
         viewport.apply(true);
         render.setProjectionMatrix(viewport.getCamera().combined);
 
-        Gdx.input.setCursorCatched(true);
+        if (configuration.fullScreen()) {
+            Gdx.input.setCursorCatched(true);
+        }
     }
 
     public void batch(Consumer<Render> consumer) {

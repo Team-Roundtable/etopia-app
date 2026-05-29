@@ -22,6 +22,9 @@ public class BiogasModel implements Model<BiogasState> {
     private final Timer shiftTimer;
     private final StatusModel status;
 
+    private final List<Trash> deliveredTrashes = new ArrayList<>();
+    private final List<Trash> grabbedTrashes = new ArrayList<>();
+
     public BiogasModel(Configuration configuration, Random random, StatusModel status) {
         this(configuration, random, status, new Cursor(configuration), new Timer(configuration.biogas().shiftTimer()));
     }
@@ -54,12 +57,21 @@ public class BiogasModel implements Model<BiogasState> {
         }
     }
 
+    /**
+     * Is not idempotent. Returns delivered and grabbed trashes only once.
+     * @return The current state of BiogasModel
+     */
     @Override
     public BiogasState state() {
-        return new BiogasState(
+        var state = new BiogasState(
                 trashes.stream().map(Trash::state).toList(),
-                cursor.state()
+                cursor.state(),
+                deliveredTrashes.stream().map(Trash::state).toList(),
+                grabbedTrashes.stream().map(Trash::state).toList()
         );
+        deliveredTrashes.clear();
+        grabbedTrashes.clear();
+        return state;
     }
 
     @Override
@@ -107,13 +119,18 @@ public class BiogasModel implements Model<BiogasState> {
                     status.removeHealth();
                 }
 
+                deliveredTrashes.add(trash);
                 iterator.remove();
             }
         }
     }
 
     private void removeTrash() {
-        trashes.removeIf(trash -> trash.intersects(cursor));
+        var grabbed = trashes.stream().filter(trash -> trash.intersects(cursor)).toList();
+
+        trashes.removeAll(grabbed);
+
+        grabbedTrashes.addAll(grabbed);
     }
 
     List<Trash> getTrashes() {

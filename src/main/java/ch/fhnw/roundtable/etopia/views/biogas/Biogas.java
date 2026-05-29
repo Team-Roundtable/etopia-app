@@ -7,6 +7,8 @@ import ch.fhnw.roundtable.etopia.input.Controls;
 import ch.fhnw.roundtable.etopia.rendering.Assets;
 import ch.fhnw.roundtable.etopia.rendering.Renderer;
 import ch.fhnw.roundtable.etopia.views.biogas.model.BiogasModel;
+import ch.fhnw.roundtable.etopia.views.biogas.state.BiogasState;
+import ch.fhnw.roundtable.etopia.views.biogas.state.BiogasTrashState;
 import ch.fhnw.roundtable.etopia.views.biogas.ui.BiogasAsset;
 import ch.fhnw.roundtable.etopia.views.biogas.ui.BiogasUI;
 import ch.fhnw.roundtable.etopia.views.information.Information;
@@ -15,6 +17,7 @@ import ch.fhnw.roundtable.etopia.views.map.Map;
 import ch.fhnw.roundtable.etopia.views.status.model.StatusModel;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusAsset;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusUI;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
@@ -31,18 +34,32 @@ public class Biogas implements View {
         statusModel = new StatusModel(configuration, configuration.biogas().gameDuration());
         biogasModel = new BiogasModel(configuration, new Random(), statusModel);
         statusUI = new StatusUI(configuration, new Assets<>(StatusAsset.class));
-        biogasUI = new BiogasUI(new Assets<>(BiogasAsset.class));
+        biogasUI = new BiogasUI(configuration.biogas(), new Assets<>(BiogasAsset.class));
     }
 
     @Override
     public void update(float delta, Controls controls) {
         biogasModel.update(delta, controls);
-        statusModel.update(delta, controls);
+    }
+
+    private void createAnimatedStatusIcons(BiogasState state) {
+        for (BiogasTrashState trash : state.deliveredTrashes()) {
+            if (trash.type().isBiodegradable()) {
+                statusUI.createAnimatedPowerIcon(new Vector2(trash.x(), trash.y()));
+            } else {
+                statusUI.createAnimatedCrossIcon(new Vector2(trash.x(), trash.y()));
+            }
+        }
     }
 
     @Override
     public void render(Renderer renderer) {
-        biogasUI.render(biogasModel.state(), renderer);
+        var state = biogasModel.state();
+        if (configuration.status().useAnimatedIcons()) {
+            createAnimatedStatusIcons(state);
+        }
+
+        biogasUI.render(state, renderer);
         statusUI.render(statusModel.state(), renderer);
     }
 
