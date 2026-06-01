@@ -29,7 +29,7 @@ public class Grid implements View {
         this.statusModel = new StatusModel(configuration, configuration.grid().gameDuration());
         this.gridModel = new GridModel(configuration, statusModel);
         this.statusUI = new StatusUI(configuration, new Assets<>(StatusAsset.class));
-        this.gridUI = new GridUI(new Assets<>(GridAsset.class));
+        this.gridUI = new GridUI(configuration.grid(), new Assets<>(GridAsset.class));
     }
 
     @Override

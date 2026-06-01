@@ -1,11 +1,17 @@
 package ch.fhnw.roundtable.etopia.views.grid.ui;
 
 import ch.fhnw.roundtable.etopia.UI;
+import ch.fhnw.roundtable.etopia.configuration.Grid;
 import ch.fhnw.roundtable.etopia.rendering.Assets;
 import ch.fhnw.roundtable.etopia.rendering.Renderer;
 import ch.fhnw.roundtable.etopia.views.grid.model.PipeType;
+import ch.fhnw.roundtable.etopia.views.grid.state.GridPipeState;
 import ch.fhnw.roundtable.etopia.views.grid.state.GridState;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GridUI implements UI<GridState> {
@@ -33,23 +39,37 @@ public class GridUI implements UI<GridState> {
             PipeType.CONSUMER, GridAsset.CONSUMER_POWERED,
             PipeType.PRODUCER, GridAsset.PRODUCER
     );
+    public static final float PIPE_ROTATION_SPEED = 40f;
 
+    private final Grid configuration;
     private final Assets<GridAsset> assets;
 
-    public GridUI(Assets<GridAsset> assets) {
+    private final Map<Vector2, Float> pipeRotations = new HashMap<>();
+
+    public GridUI(Grid configuration, Assets<GridAsset> assets) {
+        this.configuration = configuration;
         this.assets = assets;
     }
 
     @Override
     public void render(GridState state, Renderer renderer) {
+        if (configuration.animatedPipeRotation()) {
+            updateAnimatedRotation(state.pipes());
+        }
+
         renderer.batch(batch -> {
             batch.drawBackground(assets.getTexture(GridAsset.BACKGROUND));
 
             for (var pipe : state.pipes()) {
+                float rotation = pipe.rotation();
+                if (configuration.animatedPipeRotation()) {
+                    rotation = pipeRotations.get(new Vector2(pipe.x(), pipe.y()));
+                }
+
                 batch.drawCentered(assets.getTexture(translate(pipe.type(), pipe.powered())),
                         pipe.x(), pipe.y(),
                         pipe.width(), pipe.height(),
-                        pipe.rotation());
+                        rotation);
             }
 
             var cursor = state.cursor();
@@ -58,6 +78,18 @@ public class GridUI implements UI<GridState> {
                     cursor.width(), cursor.height(),
                     0);
         });
+    }
+
+    private void updateAnimatedRotation(List<GridPipeState> pipes) {
+        pipes.forEach(pipe ->
+                pipeRotations.putIfAbsent(new Vector2(pipe.x(), pipe.y()), pipe.rotation())
+        );
+
+        for (var pipe : pipes) {
+            var pos = new Vector2(pipe.x(), pipe.y());
+            pipeRotations.compute(pos, (k, currentRotation) ->
+                    lerp(currentRotation, pipe.rotation(), Gdx.graphics.getDeltaTime() * PIPE_ROTATION_SPEED));
+        }
     }
 
     @Override
@@ -69,5 +101,9 @@ public class GridUI implements UI<GridState> {
         return powered
                 ? POWERED.get(type)
                 : UNPOWERED.get(type);
+    }
+
+    private float lerp(float a, float b, float t) {
+        return (a * (1 - t)) + (b * t);
     }
 }
