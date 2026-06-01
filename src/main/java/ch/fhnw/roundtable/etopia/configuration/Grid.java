@@ -4,7 +4,8 @@ public record Grid(
         int mapWidth,
         int mapHeight,
         float gameDuration,
-        float finishCountdown
+        float finishCountdown,
+        boolean animatedPipeRotation
 ) {
 
     private static final float TILE_SIDE = 64;
@@ -15,7 +16,8 @@ public record Grid(
                 properties.getInt("grid.mapWidth").orElse(28),
                 properties.getInt("grid.mapHeight").orElse(16),
                 properties.getFloat("grid.gameDuration").orElse(60f),
-                properties.getFloat("grid.finishCountdown").orElse(2f)
+                properties.getFloat("grid.finishCountdown").orElse(2f),
+                properties.getBoolean("grid.animatedPipeRotation").orElse(false)
         );
     }
 
