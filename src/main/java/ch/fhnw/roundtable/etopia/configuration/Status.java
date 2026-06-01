@@ -2,7 +2,6 @@ package ch.fhnw.roundtable.etopia.configuration;
 
 public record Status(
         int totalHealth,
-        boolean useAnimatedIcons,
         int animatedIconsSize
 ) {
 
@@ -20,7 +19,6 @@ public record Status(
     public Status(ConfigurationProperties properties) {
         this(
                 properties.getInt("status.totalHealth").orElse(5),
-                properties.getBoolean("status.useAnimatedIcons").orElse(false),
                 properties.getInt("status.animatedIconsSize").orElse(32)
         );
     }

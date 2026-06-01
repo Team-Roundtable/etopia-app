@@ -13,8 +13,12 @@ import ch.fhnw.roundtable.etopia.views.status.model.StatusModel;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusAsset;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusUI;
 import ch.fhnw.roundtable.etopia.views.wind.model.WindModel;
+import ch.fhnw.roundtable.etopia.views.wind.state.WindGustState;
+import ch.fhnw.roundtable.etopia.views.wind.state.WindState;
 import ch.fhnw.roundtable.etopia.views.wind.ui.WindAsset;
 import ch.fhnw.roundtable.etopia.views.wind.ui.WindUI;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
@@ -42,7 +46,12 @@ public class Wind implements View {
 
     @Override
     public void render(Renderer renderer) {
-        windUI.render(windModel.state(), renderer);
+        var state = windModel.state();
+        if (configuration.wind().useAnimatedIcons()) {
+            createAnimatedStatusIcons(state);
+        }
+
+        windUI.render(state, renderer);
         statusUI.render(statusModel.state(), renderer);
     }
 
@@ -69,5 +78,15 @@ public class Wind implements View {
                     () -> new Information(configuration, InformationType.WIND_FAIL_HEALTH,
                             () -> new Map(configuration)));
         };
+    }
+
+    private void createAnimatedStatusIcons(WindState state) {
+        for (WindGustState gust : state.collectedGusts()) {
+            if (gust.harmful()) {
+                statusUI.createAnimatedCrossIcon(new Vector2(gust.x(), gust.y()), Interpolation.circle);
+            } else {
+                statusUI.createAnimatedPowerIcon(new Vector2(gust.x(), gust.y()), Interpolation.circleIn);
+            }
+        }
     }
 }

@@ -17,6 +17,7 @@ import ch.fhnw.roundtable.etopia.views.map.Map;
 import ch.fhnw.roundtable.etopia.views.status.model.StatusModel;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusAsset;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusUI;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
@@ -45,9 +46,9 @@ public class Biogas implements View {
     private void createAnimatedStatusIcons(BiogasState state) {
         for (BiogasTrashState trash : state.deliveredTrashes()) {
             if (trash.type().isBiodegradable()) {
-                statusUI.createAnimatedPowerIcon(new Vector2(trash.x(), trash.y()));
+                statusUI.createAnimatedPowerIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle);
             } else {
-                statusUI.createAnimatedCrossIcon(new Vector2(trash.x(), trash.y()));
+                statusUI.createAnimatedCrossIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle);
             }
         }
     }
@@ -55,7 +56,7 @@ public class Biogas implements View {
     @Override
     public void render(Renderer renderer) {
         var state = biogasModel.state();
-        if (configuration.status().useAnimatedIcons()) {
+        if (configuration.biogas().useAnimatedIcons()) {
             createAnimatedStatusIcons(state);
         }
 

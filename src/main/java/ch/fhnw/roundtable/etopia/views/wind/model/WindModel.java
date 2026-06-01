@@ -24,6 +24,7 @@ public class WindModel implements Model<WindState> {
     private final Timer gustHarmfulTimer;
     private final Rectangle outsideBounds;
     private final StatusModel status;
+    private final List<Gust> collectedGusts = new ArrayList<>();
 
     public WindModel(Configuration configuration, Random random, StatusModel status) {
         this(configuration,
@@ -67,12 +68,19 @@ public class WindModel implements Model<WindState> {
         checkCollision();
     }
 
+    /**
+     * Is not idempotent. Returns delivered and grabbed gusts only once.
+     * @return The current state of WindModel
+     */
     @Override
     public WindState state() {
-        return new WindState(
+        var state = new WindState(
                 turbine.state(),
-                gusts.stream().map(Gust::state).toList()
+                gusts.stream().map(Gust::state).toList(),
+                collectedGusts.stream().map(Gust::state).toList()
         );
+        collectedGusts.clear();
+        return state;
     }
 
     @Override
@@ -111,6 +119,7 @@ public class WindModel implements Model<WindState> {
             var gustBounds = gust.getBounds();
 
             if (Intersections.intersects(turbineBounds, gustBounds)) {
+                collectedGusts.add(gust);
                 gustIterator.remove();
 
                 if (!gust.isHarmful()) {

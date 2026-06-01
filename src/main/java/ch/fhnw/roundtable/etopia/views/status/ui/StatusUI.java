@@ -98,7 +98,7 @@ public class StatusUI implements UI<StatusState> {
         while (iterator.hasNext()) {
             var icon = iterator.next();
 
-            icon.move(Gdx.graphics.getDeltaTime(), Interpolation.circle);
+            icon.move(Gdx.graphics.getDeltaTime());
 
             if (icon.distanceToTarget() < ICON_KILL_DST) {
                 iterator.remove();
@@ -125,11 +125,11 @@ public class StatusUI implements UI<StatusState> {
         return (a * (1 - t)) + (b * t);
     }
 
-    public void createAnimatedPowerIcon(Vector2 start) {
-        animatedIcons.add(new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON));
+    public void createAnimatedPowerIcon(Vector2 start, Interpolation interpolation) {
+        animatedIcons.add(new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON, interpolation));
     }
 
-    public void createAnimatedCrossIcon(Vector2 start) {
-        animatedIcons.add(new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON));
+    public void createAnimatedCrossIcon(Vector2 start, Interpolation interpolation) {
+        animatedIcons.add(new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON, interpolation));
     }
 }
