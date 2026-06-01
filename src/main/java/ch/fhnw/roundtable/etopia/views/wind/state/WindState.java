@@ -4,6 +4,6 @@ import java.util.List;
 
 public record WindState(
         WindTurbineState turbine,
-        List<WindGustState> gusts
-) {
+        List<WindGustState> gusts,
+        List<WindGustState> collectedGusts) {
 }

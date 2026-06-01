@@ -3,7 +3,8 @@ package ch.fhnw.roundtable.etopia.configuration;
 public record Biogas(
         float gameDuration,
         float shiftTimer,
-        boolean animatedOnConveyor
+        boolean animatedOnConveyor,
+        boolean useAnimatedIcons
 ) {
 
     private static final float ITEM_SIDE = 128;
@@ -16,7 +17,8 @@ public record Biogas(
         this(
                 properties.getFloat("biogas.gameDuration").orElse(100f),
                 properties.getFloat("biogas.shiftTimer").orElse(0.75f),
-                properties.getBoolean("biogas.animatedOnConveyor").orElse(false)
+                properties.getBoolean("biogas.animatedOnConveyor").orElse(false),
+                properties.getBoolean("biogas.useAnimatedIcons").orElse(false)
         );
     }
 
