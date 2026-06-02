@@ -8,6 +8,7 @@ import ch.fhnw.roundtable.etopia.views.biogas.model.TrashType;
 import ch.fhnw.roundtable.etopia.views.biogas.state.BiogasState;
 import ch.fhnw.roundtable.etopia.views.biogas.state.BiogasTrashState;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -20,6 +21,7 @@ public class BiogasUI implements UI<BiogasState> {
     private final Assets<BiogasAsset> assets;
     private final Map<UUID, Icon> animatedItemPositions = new HashMap<>();
     private final Biogas configuration;
+    private Vector2 animatedCursorPosition;
 
     public BiogasUI(Biogas configuration, Assets<BiogasAsset> assets) {
         this.assets = assets;
@@ -28,6 +30,10 @@ public class BiogasUI implements UI<BiogasState> {
 
     @Override
     public void render(BiogasState state, Renderer renderer) {
+        if (animatedCursorPosition == null) {
+            animatedCursorPosition = new Vector2(state.cursor().x(), state.cursor().y());
+        }
+
         renderer.batch(batch -> {
             batch.drawBackground(assets.getTexture(BiogasAsset.BACKGROUND));
 
@@ -39,6 +45,8 @@ public class BiogasUI implements UI<BiogasState> {
                 updateAnimatedTrashesGoals(state);
                 moveAnimatedTrashes();
 
+                updateAnimatedCursor(state);
+
                 for (var trash : animatedItemPositions.values()) {
                     var trashState = trash.getState();
                     batch.draw(assets.getTexture(translate(trashState.type())),
@@ -47,6 +55,13 @@ public class BiogasUI implements UI<BiogasState> {
                             trashState.width(),
                             trashState.height());
                 }
+
+                var cursor = state.cursor();
+                batch.draw(assets.getTexture(BiogasAsset.CURSOR),
+                        animatedCursorPosition.x,
+                        animatedCursorPosition.y,
+                        cursor.width(),
+                        cursor.height());
             } else {
                 for (var trash : state.trashes()) {
                     batch.draw(assets.getTexture(translate(trash.type())),
@@ -55,14 +70,14 @@ public class BiogasUI implements UI<BiogasState> {
                             trash.width(),
                             trash.height());
                 }
-            }
 
-            var cursor = state.cursor();
-            batch.draw(assets.getTexture(BiogasAsset.CURSOR),
-                    cursor.x(),
-                    cursor.y(),
-                    cursor.width(),
-                    cursor.height());
+                var cursor = state.cursor();
+                batch.draw(assets.getTexture(BiogasAsset.CURSOR),
+                        cursor.x(),
+                        cursor.y(),
+                        cursor.width(),
+                        cursor.height());
+            }
         });
     }
 
@@ -85,6 +100,13 @@ public class BiogasUI implements UI<BiogasState> {
         for (var item : state.trashes()) {
             animatedItemPositions.get(item.id()).setGoal(new Vector2(item.x(), item.y()));
         }
+    }
+
+    private void updateAnimatedCursor(BiogasState state) {
+        animatedCursorPosition = animatedCursorPosition.interpolate(
+                new Vector2(state.cursor().x(), state.cursor().y()),
+                Gdx.graphics.getDeltaTime() * 50f,
+                Interpolation.linear);
     }
 
     private void removeAnimatedTrashes(List<BiogasTrashState> trashes) {
