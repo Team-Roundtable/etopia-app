@@ -46,6 +46,7 @@ class BiogasModelTest {
 
         when(configuration.biogas()).thenReturn(biogasConfig);
         when(biogasConfig.conveyorSpeed()).thenReturn(1f);
+        when(biogasConfig.powerPercentPerTrash()).thenReturn(ENERGY_GAIN);
         when(biogasConfig.mapWidth()).thenReturn(MAP_WIDTH);
         when(biogasConfig.mapHeight()).thenReturn(MAP_HEIGHT);
 

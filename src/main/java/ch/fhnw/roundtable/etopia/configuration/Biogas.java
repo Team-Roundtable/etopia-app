@@ -20,7 +20,7 @@ public record Biogas(
                 properties.getFloat("biogas.conveyorSpeed").orElse(0.75f),
                 properties.getBoolean("biogas.animatedOnConveyor").orElse(false),
                 properties.getBoolean("biogas.useAnimatedIcons").orElse(false),
-                properties.getFloat("biogas.powerPercentPerTrash").orElse(0.5f)
+                properties.getFloat("biogas.powerPercentPerTrash").orElse(0.05f)
         );
     }
 
