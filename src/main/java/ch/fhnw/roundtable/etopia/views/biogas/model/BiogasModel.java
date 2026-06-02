@@ -114,7 +114,7 @@ public class BiogasModel implements Model<BiogasState> {
 
             if (trash.isDropped()) {
                 if (trash.isBiodegradable()) {
-                    status.addEnergy(0.05f);
+                    status.addEnergy(configuration.biogas().powerPercentPerTrash());
                 } else {
                     status.removeHealth();
                 }
