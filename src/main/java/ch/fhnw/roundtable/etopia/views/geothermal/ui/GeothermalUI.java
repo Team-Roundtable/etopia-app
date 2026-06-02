@@ -4,10 +4,13 @@ import ch.fhnw.roundtable.etopia.UI;
 import ch.fhnw.roundtable.etopia.rendering.Assets;
 import ch.fhnw.roundtable.etopia.rendering.Renderer;
 import ch.fhnw.roundtable.etopia.views.geothermal.state.GeothermalState;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GeothermalUI implements UI<GeothermalState> {
 
     private final Assets<GeothermalAsset> assets;
+    private float animatedDrillRotation = 0;
 
     public GeothermalUI(Assets<GeothermalAsset> assets) {
         this.assets = assets;
@@ -15,6 +18,9 @@ public class GeothermalUI implements UI<GeothermalState> {
 
     @Override
     public void render(GeothermalState state, Renderer renderer) {
+        animatedDrillRotation = MathUtils.lerp(animatedDrillRotation, state.drill().rotation(),
+                Gdx.graphics.getDeltaTime() * 30f);
+
         renderer.setCameraPosition(state.cameraPositionX(), state.cameraPositionY());
 
         renderer.batch(batch -> {
@@ -38,7 +44,7 @@ public class GeothermalUI implements UI<GeothermalState> {
             batch.drawCentered(assets.getTexture(GeothermalAsset.DRILL),
                     drill.x(), drill.y(),
                     drill.width(), drill.height(),
-                    drill.rotation());
+                    animatedDrillRotation);
         });
 
         renderer.resetCamera();
