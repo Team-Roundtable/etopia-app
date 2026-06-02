@@ -26,7 +26,7 @@ public record Configuration(
                 new Languages(properties),
                 new State(),
                 new Information(properties),
-                new Map(),
+                new Map(properties),
                 new Wind(properties),
                 new Solar(properties),
                 new Grid(properties),

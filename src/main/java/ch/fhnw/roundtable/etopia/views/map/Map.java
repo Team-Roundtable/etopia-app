@@ -17,7 +17,7 @@ public class Map implements View {
 
     public Map(Configuration configuration) {
         this.mapModel = new MapModel(configuration);
-        this.mapUI = new MapUI(new Assets<>(MapAsset.class));
+        this.mapUI = new MapUI(configuration.map(), new Assets<>(MapAsset.class));
     }
 
     @Override

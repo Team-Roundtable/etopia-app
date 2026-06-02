@@ -20,4 +20,17 @@ public class Render extends SpriteBatch {
                 texture.getWidth(), texture.getHeight(),
                 false, false);
     }
+
+    public void drawCentered(Texture texture, float x, float y, float width, float height, float rotation,
+                             float scale) {
+        super.draw(texture,
+                x - width / 2, y - height / 2,
+                width / 2, height / 2,
+                width, height,
+                scale, scale,
+                rotation,
+                0, 0,
+                texture.getWidth(), texture.getHeight(),
+                false, false);
+    }
 }
