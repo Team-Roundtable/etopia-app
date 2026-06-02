@@ -43,6 +43,8 @@ class PipesTest {
         pipes.add(20, 20);
         pipes.add(30, 30);
         pipes.add(40, 40);
+        pipes.add(50, 50);
+        pipes.add(60, 60);
 
         assertTrue(pipes.intersects(new Circle(0, 0, 100)));
     }
