@@ -5,11 +5,11 @@ import java.util.Random;
 public enum TrashType {
     APPLE(true),
     BANANA(true),
+    GRAPES(true),
     BOTTLE(false),
     CAN(false),
     COLA(false),
     CUP(false),
-    GRAPES(true),
     GLASS(false);
 
     private final boolean biodegradable;
