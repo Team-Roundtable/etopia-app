@@ -1,4 +1,6 @@
-# e-topia
+# E-topia
+
+Zur Dokumentation: https://github.com/Team-Roundtable/etopia-docu
 
 ## Structure
 ```
@@ -31,8 +33,3 @@ src/
     site/                       // maven site plugin
     test/                       // unit tests
 ```
-
-## Documentation
-
-For more details please referrer to this [repository](https://gitlab.fhnw.ch/ip12-25hs/ip12-hs25-team1/docu/-/blob/main/software(sad)/sad.adoc?ref_type=heads)
-
