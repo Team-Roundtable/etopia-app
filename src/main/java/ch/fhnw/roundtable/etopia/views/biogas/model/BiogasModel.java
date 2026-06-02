@@ -100,11 +100,22 @@ public class BiogasModel implements Model<BiogasState> {
 
     private void addTrash() {
         var x = configuration.biogas().mapWidth();
-        var y = random.nextInt(configuration.biogas().mapHeight());
+        var y1 = random.nextInt(configuration.biogas().mapHeight());
         var biodegradable = TrashType.createRandom(random);
-        var trash = new Trash(configuration, x, y, biodegradable);
+        var trash = new Trash(configuration, x, y1, biodegradable);
 
         trashes.add(trash);
+
+        var y2 = random.nextInt(configuration.biogas().mapHeight());
+        if (Math.random() < 0.2 && y2 != y1) {
+            TrashType type;
+            int triesLeft = 10;
+            do {
+                type = TrashType.createRandom(random);
+                triesLeft--;
+            } while (triesLeft > 0 && !type.isBiodegradable());
+            trashes.add(new Trash(configuration, x, y2, type));
+        }
     }
 
     private void droppedTrash() {
