@@ -38,7 +38,7 @@ public class Drill implements Updateable, Renderable<GeothermalDrillState> {
         direction = horizontal;
 
         y += speed * delta * (down ? -1 : 1);
-        x = Math.clamp(x + speed * delta * direction, 0, configuration.worldWidth());
+        x = Math.clamp(x + speed * delta * direction, 0 + width / 3, configuration.worldWidth() - width / 3);
     }
 
     @Override
