@@ -34,8 +34,8 @@ public class Pipes implements Iterable<Pipe> {
     }
 
     public boolean intersects(Circle circle) {
-        // the -3 is needed to not intersect with its own tail
-        for (int i = 0; i < elements.size() - 3; i++) {
+        // the -5 is needed to not intersect with its own tail
+        for (int i = 0; i < Math.max(0, elements.size() - 5); i++) {
             if (elements.get(i).intersects(circle)) {
                 return true;
             }

@@ -44,7 +44,8 @@ public class GeothermalUI implements UI<GeothermalState> {
             batch.drawCentered(assets.getTexture(GeothermalAsset.DRILL),
                     drill.x(), drill.y(),
                     drill.width(), drill.height(),
-                    animatedDrillRotation);
+                    animatedDrillRotation,
+                    1.2f);
         });
 
         renderer.resetCamera();

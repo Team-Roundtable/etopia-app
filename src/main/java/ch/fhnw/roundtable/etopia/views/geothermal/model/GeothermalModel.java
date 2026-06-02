@@ -34,6 +34,7 @@ public class GeothermalModel implements Model<GeothermalState> {
         this.collisionCountdown = new Countdown(configuration.geothermal().collisionCountdown());
         this.bottomCountdown = new Countdown(configuration.geothermal().bottomCountdown());
         this.topCountdown = new Countdown(configuration.geothermal().topCountdown());
+        this.justGotHurt = false;
     }
 
     @Override
