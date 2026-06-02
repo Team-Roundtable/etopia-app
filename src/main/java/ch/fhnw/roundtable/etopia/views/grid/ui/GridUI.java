@@ -8,6 +8,7 @@ import ch.fhnw.roundtable.etopia.views.grid.model.PipeType;
 import ch.fhnw.roundtable.etopia.views.grid.state.GridPipeState;
 import ch.fhnw.roundtable.etopia.views.grid.state.GridState;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class GridUI implements UI<GridState> {
     private final Assets<GridAsset> assets;
 
     private final Map<Vector2, Float> pipeRotations = new HashMap<>();
+    private Vector2 animatedCursorPosition;
 
     public GridUI(Grid configuration, Assets<GridAsset> assets) {
         this.configuration = configuration;
@@ -53,6 +55,9 @@ public class GridUI implements UI<GridState> {
 
     @Override
     public void render(GridState state, Renderer renderer) {
+        if (animatedCursorPosition == null) {
+            animatedCursorPosition = new Vector2(state.cursor().x(), state.cursor().y());
+        }
         if (configuration.animatedPipeRotation()) {
             updateAnimatedRotation(state.pipes());
         }
@@ -73,8 +78,15 @@ public class GridUI implements UI<GridState> {
             }
 
             var cursor = state.cursor();
+            Vector2 position = new Vector2(cursor.x(), cursor.y());
+            if (configuration.animatedPipeRotation()) {
+                position = animatedCursorPosition.interpolate(
+                        position,
+                        Gdx.graphics.getDeltaTime() * 50f,
+                        Interpolation.linear);
+            }
             batch.drawCentered(assets.getTexture(GridAsset.CURSOR),
-                    cursor.x(), cursor.y(),
+                    position.x, position.y,
                     cursor.width(), cursor.height(),
                     0);
         });
