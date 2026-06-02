@@ -2,6 +2,9 @@
 
 Zur Dokumentation: https://github.com/Team-Roundtable/etopia-docu
 
+## Showcase
+**![E-Topia Arcade with game running](img.png)**
+
 ## Structure
 ```
 configuration/
