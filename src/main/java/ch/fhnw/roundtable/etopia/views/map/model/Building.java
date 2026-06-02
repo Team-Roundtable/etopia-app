@@ -26,8 +26,8 @@ public enum Building {
     GEOTHERMAL;
 
     static {
-        SETTINGS.transitions = Map.of(DOWN, WIND, RIGHT, INFORMATION);
-        WIND.transitions = Map.of(UP, SETTINGS, DOWN, BIOGAS, RIGHT, INFORMATION);
+        SETTINGS.transitions = Map.of(DOWN, WIND, RIGHT, WIND);
+        WIND.transitions = Map.of(UP, SETTINGS, DOWN, BIOGAS, RIGHT, INFORMATION, LEFT, SETTINGS);
         INFORMATION.transitions = Map.of(UP, SETTINGS, DOWN, GRID, LEFT, WIND, RIGHT, SOLAR);
         SOLAR.transitions = Map.of(UP, SETTINGS, DOWN, GEOTHERMAL, LEFT, INFORMATION);
         BIOGAS.transitions = Map.of(UP, WIND, RIGHT, GRID);
