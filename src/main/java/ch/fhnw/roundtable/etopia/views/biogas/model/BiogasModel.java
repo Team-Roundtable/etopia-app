@@ -26,7 +26,8 @@ public class BiogasModel implements Model<BiogasState> {
     private final List<Trash> grabbedTrashes = new ArrayList<>();
 
     public BiogasModel(Configuration configuration, Random random, StatusModel status) {
-        this(configuration, random, status, new Cursor(configuration), new Timer(configuration.biogas().shiftTimer()));
+        this(configuration, random, status, new Cursor(configuration),
+                new Timer(configuration.biogas().conveyorSpeed()));
     }
 
     BiogasModel(Configuration configuration, Random random, StatusModel status, Cursor cursor, Timer timer) {

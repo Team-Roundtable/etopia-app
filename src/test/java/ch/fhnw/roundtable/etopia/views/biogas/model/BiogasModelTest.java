@@ -45,7 +45,7 @@ class BiogasModelTest {
         controls = mock(Controls.class);
 
         when(configuration.biogas()).thenReturn(biogasConfig);
-        when(biogasConfig.shiftTimer()).thenReturn(1f);
+        when(biogasConfig.conveyorSpeed()).thenReturn(1f);
         when(biogasConfig.mapWidth()).thenReturn(MAP_WIDTH);
         when(biogasConfig.mapHeight()).thenReturn(MAP_HEIGHT);
 
