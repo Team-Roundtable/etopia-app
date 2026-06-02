@@ -86,8 +86,9 @@ public class MapUI implements UI<MapState> {
         float progress = timeInCycle / (float) cycleMs;
 
         // Pulse only during first 20% of cycle
-        if (progress < 0.2f) {
-            float pulseProgress = progress / 0.2f;
+        float pulsePart = 0.2f;
+        if (progress < pulsePart) {
+            float pulseProgress = progress / pulsePart;
             double pulse = Math.sin(pulseProgress * Math.PI);
             return (float) (baseScale + pulseAmount * pulse);
         }
