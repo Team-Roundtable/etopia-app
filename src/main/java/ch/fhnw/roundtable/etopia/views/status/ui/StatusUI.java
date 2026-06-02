@@ -16,6 +16,8 @@ import java.util.List;
 public class StatusUI implements UI<StatusState> {
 
     public static final int ICON_KILL_DST = 10;
+    public static final float POWER_ICON_BASE_SCALE = 1f;
+    public static final float CROSS_ICON_BASE_SCALE = 2f;
 
     private final Configuration configuration;
     private final Assets<StatusAsset> assets;
@@ -108,11 +110,13 @@ public class StatusUI implements UI<StatusState> {
 
     private void drawIcons(Render batch) {
         for (var icon : animatedIcons) {
-            batch.draw(assets.getTexture(icon.getAsset()),
+            batch.drawCentered(assets.getTexture(icon.getAsset()),
                     icon.getPosition().x,
                     icon.getPosition().y,
                     configuration.status().animatedIconsSize(),
-                    configuration.status().animatedIconsSize());
+                    configuration.status().animatedIconsSize(),
+                    0,
+                    icon.getScale());
         }
     }
 
@@ -127,11 +131,13 @@ public class StatusUI implements UI<StatusState> {
 
     public void createAnimatedPowerIcon(Vector2 start, Interpolation interpolation, float speed) {
         animatedIcons.add(
-                new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON, interpolation, speed));
+                new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON, interpolation, speed,
+                        POWER_ICON_BASE_SCALE));
     }
 
     public void createAnimatedCrossIcon(Vector2 start, Interpolation interpolation, float speed) {
         animatedIcons.add(
-                new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON, interpolation, speed));
+                new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON, interpolation, speed,
+                        CROSS_ICON_BASE_SCALE));
     }
 }

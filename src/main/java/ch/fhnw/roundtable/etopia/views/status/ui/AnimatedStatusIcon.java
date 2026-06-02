@@ -8,6 +8,7 @@ public class AnimatedStatusIcon {
     private final Vector2 end;
     private final StatusAsset asset;
     private final Interpolation interpolation;
+    private final float scale;
     private final float speed;
     private float t;
 
@@ -21,18 +22,16 @@ public class AnimatedStatusIcon {
 
     private Vector2 position;
 
-    public AnimatedStatusIcon(Vector2 start, Vector2 end, StatusAsset asset, Interpolation interpolation, float speed) {
+    public AnimatedStatusIcon(Vector2 start, Vector2 end, StatusAsset asset, Interpolation interpolation, float speed,
+                              float scale) {
         this.start = start;
         this.end = end;
         this.asset = asset;
         this.interpolation = interpolation;
+        this.scale = scale;
         this.t = 0;
         this.position = Vector2.Zero;
         this.speed = speed;
-    }
-
-    public AnimatedStatusIcon(Vector2 start, Vector2 end, StatusAsset asset, Interpolation interpolation) {
-        this(start, end, asset, interpolation, 1f);
     }
 
     public void move(float delta) {
@@ -42,5 +41,9 @@ public class AnimatedStatusIcon {
 
     public float distanceToTarget() {
         return position.dst(end);
+    }
+
+    public float getScale() {
+        return scale;
     }
 }
