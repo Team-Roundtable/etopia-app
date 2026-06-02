@@ -46,9 +46,9 @@ public class Biogas implements View {
     private void createAnimatedStatusIcons(BiogasState state) {
         for (BiogasTrashState trash : state.deliveredTrashes()) {
             if (trash.type().isBiodegradable()) {
-                statusUI.createAnimatedPowerIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle);
+                statusUI.createAnimatedPowerIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle, 1f);
             } else {
-                statusUI.createAnimatedCrossIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle);
+                statusUI.createAnimatedCrossIcon(new Vector2(trash.x(), trash.y()), Interpolation.circle, 1f);
             }
         }
     }

@@ -15,6 +15,8 @@ import ch.fhnw.roundtable.etopia.views.map.Map;
 import ch.fhnw.roundtable.etopia.views.status.model.StatusModel;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusAsset;
 import ch.fhnw.roundtable.etopia.views.status.ui.StatusUI;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
 
@@ -43,7 +45,19 @@ public class Geothermal implements View {
 
     @Override
     public void render(Renderer renderer) {
-        geothermalUI.render(geothermalModel.state(), renderer);
+        var state = geothermalModel.state();
+        if (configuration.geothermal().useAnimatedIcons()) {
+            if (state.justGotHurt()) {
+                Vector2 cameraPos = new Vector2(state.cameraPositionX(), state.cameraPositionY());
+                Vector2 drillWorldPos = new Vector2(state.drill().x(), state.drill().y());
+                statusUI.createAnimatedCrossIcon(
+                        renderer.toViewPos(cameraPos, drillWorldPos),
+                        Interpolation.linear,
+                        0.2f);
+            }
+        }
+
+        geothermalUI.render(state, renderer);
         statusUI.render(statusModel.state(), renderer);
     }
 

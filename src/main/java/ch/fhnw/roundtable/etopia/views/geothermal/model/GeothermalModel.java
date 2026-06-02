@@ -22,6 +22,7 @@ public class GeothermalModel implements Model<GeothermalState> {
     private final Countdown collisionCountdown;
     private final Countdown bottomCountdown;
     private final Countdown topCountdown;
+    private boolean justGotHurt;
 
     public GeothermalModel(Configuration configuration, Random random, StatusModel status) {
         this.configuration = configuration;
@@ -61,15 +62,18 @@ public class GeothermalModel implements Model<GeothermalState> {
 
     @Override
     public GeothermalState state() {
-        return new GeothermalState(
+        var state = new GeothermalState(
                 configuration.worldWidth() / 2f,
                 drill.getY(),
                 configuration.worldWidth(),
                 configuration.geothermal().mapHeight(),
                 rocks.getState(),
                 pipes.getState(),
-                drill.state()
+                drill.state(),
+                justGotHurt
         );
+        justGotHurt = false;
+        return state;
     }
 
     @Override
@@ -148,5 +152,6 @@ public class GeothermalModel implements Model<GeothermalState> {
     private void damagePlayer() {
         status.removeHealth();
         collisionCountdown.start();
+        justGotHurt = true;
     }
 }

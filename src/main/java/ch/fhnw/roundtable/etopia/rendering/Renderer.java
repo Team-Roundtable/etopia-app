@@ -4,6 +4,7 @@ import ch.fhnw.roundtable.etopia.configuration.Configuration;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -61,5 +62,12 @@ public class Renderer {
 
     public void resetCamera() {
         setCameraPosition(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f);
+    }
+
+    public Vector2 toViewPos(Vector2 cameraPos, Vector2 worldPos) {
+        setCameraPosition(cameraPos.x, cameraPos.y);
+        var viewPos = viewport.project(worldPos);
+        resetCamera();
+        return viewPos;
     }
 }

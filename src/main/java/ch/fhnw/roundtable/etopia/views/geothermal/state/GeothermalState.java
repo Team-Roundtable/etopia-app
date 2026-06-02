@@ -9,6 +9,7 @@ public record GeothermalState(
         float mapHeight,
         List<GeothermalRockState> rocks,
         List<GeothermalPipeState> pipes,
-        GeothermalDrillState drill
+        GeothermalDrillState drill,
+        boolean justGotHurt
 ) {
 }

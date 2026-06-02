@@ -125,11 +125,13 @@ public class StatusUI implements UI<StatusState> {
         return (a * (1 - t)) + (b * t);
     }
 
-    public void createAnimatedPowerIcon(Vector2 start, Interpolation interpolation) {
-        animatedIcons.add(new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON, interpolation));
+    public void createAnimatedPowerIcon(Vector2 start, Interpolation interpolation, float speed) {
+        animatedIcons.add(
+                new AnimatedStatusIcon(start, powerIconPosition(), StatusAsset.POWER_ICON, interpolation, speed));
     }
 
-    public void createAnimatedCrossIcon(Vector2 start, Interpolation interpolation) {
-        animatedIcons.add(new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON, interpolation));
+    public void createAnimatedCrossIcon(Vector2 start, Interpolation interpolation, float speed) {
+        animatedIcons.add(
+                new AnimatedStatusIcon(start, healthIconPosition(), StatusAsset.CROSS_ICON, interpolation, speed));
     }
 }

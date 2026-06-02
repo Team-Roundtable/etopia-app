@@ -83,9 +83,9 @@ public class Wind implements View {
     private void createAnimatedStatusIcons(WindState state) {
         for (WindGustState gust : state.collectedGusts()) {
             if (gust.harmful()) {
-                statusUI.createAnimatedCrossIcon(new Vector2(gust.x(), gust.y()), Interpolation.circle);
+                statusUI.createAnimatedCrossIcon(new Vector2(gust.x(), gust.y()), Interpolation.circle, 1f);
             } else {
-                statusUI.createAnimatedPowerIcon(new Vector2(gust.x(), gust.y()), Interpolation.circleIn);
+                statusUI.createAnimatedPowerIcon(new Vector2(gust.x(), gust.y()), Interpolation.circleIn, 1f);
             }
         }
     }

@@ -6,7 +6,8 @@ public record Geothermal(
         int numberOfRocks,
         float collisionCountdown,
         float bottomCountdown,
-        float topCountdown
+        float topCountdown,
+        boolean useAnimatedIcons
 ) {
 
     private static final float MAP_HEIGHT = 8192;
@@ -25,7 +26,8 @@ public record Geothermal(
                 properties.getInt("geothermal.numberOfRocks").orElse(40),
                 properties.getFloat("geothermal.collisionCountdown").orElse(2f),
                 properties.getFloat("geothermal.bottomCountdown").orElse(1f),
-                properties.getFloat("geothermal.topCountdown").orElse(1f)
+                properties.getFloat("geothermal.topCountdown").orElse(1f),
+                properties.getBoolean("geothermal.useAnimatedIcons").orElse(false)
         );
     }
 
