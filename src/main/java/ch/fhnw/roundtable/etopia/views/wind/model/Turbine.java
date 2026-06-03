@@ -46,7 +46,7 @@ public class Turbine implements Updateable, Renderable<WindTurbineState> {
 
     @Override
     public WindTurbineState state() {
-        return new WindTurbineState(x, y, width, height);
+        return new WindTurbineState(x, y, width, height, isFrozen());
     }
 
     public Rectangle getBounds() {

@@ -7,6 +7,7 @@ import ch.fhnw.roundtable.etopia.rendering.AnimatedAsset;
 import ch.fhnw.roundtable.etopia.rendering.Assets;
 import ch.fhnw.roundtable.etopia.rendering.Renderer;
 import ch.fhnw.roundtable.etopia.views.wind.state.WindState;
+import com.badlogic.gdx.Gdx;
 
 public class WindUI implements UI<WindState>, Updateable {
 
@@ -20,11 +21,13 @@ public class WindUI implements UI<WindState>, Updateable {
 
     @Override
     public void update(float delta, Controls controls) {
-        turbineAnimation.update(delta);
+
     }
 
     @Override
     public void render(WindState state, Renderer renderer) {
+        turbineAnimation.update(Gdx.graphics.getDeltaTime() * (state.turbine().frozen() ? 0.2f : 1f));
+
         renderer.batch(batch -> {
             batch.drawBackground(assets.getTexture(WindAsset.BACKGROUND));
 
