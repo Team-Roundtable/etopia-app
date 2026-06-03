@@ -17,7 +17,7 @@ public record Grid(
                 properties.getInt("grid.mapHeight").orElse(16),
                 properties.getFloat("grid.gameDuration").orElse(60f),
                 properties.getFloat("grid.finishCountdown").orElse(2f),
-                properties.getBoolean("grid.animatedPipeRotation").orElse(false)
+                properties.getBoolean("grid.animatedPipeRotation").orElse(true)
         );
     }
 

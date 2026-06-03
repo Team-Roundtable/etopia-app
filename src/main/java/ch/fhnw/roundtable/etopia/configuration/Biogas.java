@@ -17,10 +17,10 @@ public record Biogas(
     public Biogas(ConfigurationProperties properties) {
         this(
                 properties.getFloat("biogas.gameDuration").orElse(60f),
-                properties.getFloat("biogas.conveyorSpeed").orElse(0.75f),
-                properties.getBoolean("biogas.animatedOnConveyor").orElse(false),
-                properties.getBoolean("biogas.useAnimatedIcons").orElse(false),
-                properties.getFloat("biogas.powerPercentPerTrash").orElse(0.05f)
+                properties.getFloat("biogas.conveyorSpeed").orElse(1f),
+                properties.getBoolean("biogas.animatedOnConveyor").orElse(true),
+                properties.getBoolean("biogas.useAnimatedIcons").orElse(true),
+                properties.getFloat("biogas.powerPercentPerTrash").orElse(0.06f)
         );
     }
 

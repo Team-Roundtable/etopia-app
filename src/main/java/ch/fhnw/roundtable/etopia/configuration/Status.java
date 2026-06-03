@@ -19,7 +19,7 @@ public record Status(
     public Status(ConfigurationProperties properties) {
         this(
                 properties.getInt("status.totalHealth").orElse(5),
-                properties.getInt("status.animatedIconsSize").orElse(32)
+                properties.getInt("status.animatedIconsSize").orElse(40)
         );
     }
 

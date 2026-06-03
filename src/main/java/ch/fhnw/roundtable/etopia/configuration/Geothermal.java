@@ -27,7 +27,7 @@ public record Geothermal(
                 properties.getFloat("geothermal.collisionCountdown").orElse(2f),
                 properties.getFloat("geothermal.bottomCountdown").orElse(1f),
                 properties.getFloat("geothermal.topCountdown").orElse(1f),
-                properties.getBoolean("geothermal.useAnimatedIcons").orElse(false)
+                properties.getBoolean("geothermal.useAnimatedIcons").orElse(true)
         );
     }
 

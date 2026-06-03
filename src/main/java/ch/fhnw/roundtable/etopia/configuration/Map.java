@@ -9,7 +9,7 @@ public record Map(boolean doSettingPulse) {
 
     public Map(ConfigurationProperties properties) {
         this(
-                properties.getBoolean("map.doSettingPulse").orElse(false)
+                properties.getBoolean("map.doSettingPulse").orElse(true)
         );
     }
 

@@ -25,7 +25,7 @@ public record Wind(
                 properties.getFloat("wind.gustTimer").orElse(0.5f),
                 properties.getFloat("wind.tornadoTimer").orElse(0.8f),
                 properties.getFloat("wind.energyAdded").orElse(0.05f),
-                properties.getBoolean("wind.useAnimatedIcons").orElse(false)
+                properties.getBoolean("wind.useAnimatedIcons").orElse(true)
         );
     }
 
