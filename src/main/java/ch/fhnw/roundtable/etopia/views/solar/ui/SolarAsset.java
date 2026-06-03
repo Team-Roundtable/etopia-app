@@ -6,7 +6,9 @@ public enum SolarAsset implements Asset {
     SUN("assets/solar/sun.png"),
     PANEL("assets/solar/panel.png"),
     STAND("assets/solar/stand.png"),
-    BACKGROUND("assets/solar/background.png");
+    BACKGROUND("assets/solar/background.png"),
+    BACKGROUND_GRASS("assets/solar/background_grass.png"),
+    BACKGROUND_SKY("assets/solar/background_sky.png");
 
     private final String path;
 

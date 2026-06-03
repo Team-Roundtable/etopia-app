@@ -21,11 +21,13 @@ public class SolarUI implements UI<SolarState> {
             var sun = state.sun();
             batch.setColor(sun.dayLight(), sun.dayLight(), sun.dayLight(), 1f);
 
-            batch.drawBackground(assets.getTexture(SolarAsset.BACKGROUND));
+            batch.drawBackground(assets.getTexture(SolarAsset.BACKGROUND_SKY));
 
             batch.draw(assets.getTexture(SolarAsset.SUN),
                     sun.x(), sun.y(),
                     sun.width(), sun.height());
+
+            batch.drawBackground(assets.getTexture(SolarAsset.BACKGROUND_GRASS));
 
             var panel = state.panel();
             batch.drawCentered(assets.getTexture(SolarAsset.STAND),
